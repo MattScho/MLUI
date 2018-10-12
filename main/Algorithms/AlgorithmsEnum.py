@@ -521,4 +521,3 @@ class Algorithm(Enum):
 
         ]
     }
-

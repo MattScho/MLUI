@@ -1,4 +1,3 @@
-
 from sklearn import metrics
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -175,9 +174,9 @@ class Executioner:
             "Model": model,
             "Statistics":
             {
-
-                    "Accuracy": modelAccuracy
+                "Accuracy": modelAccuracy
             }
         }
         return entry
+
 
