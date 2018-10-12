@@ -45,5 +45,7 @@ class RegressionAlgorithmResultsFrame(Frame):
         self.curRow += 1
 
     def pickleModel(self):
-        fileToPickleTo = filedialog.askopenfilename()
-        pickle.dump(self.result.get("Model"), open(fileToPickleTo, 'wb'))
+        fileToPickleTo = filedialog.asksaveasfile(mode='wb', defaultextension=".MLModel")
+        if fileToPickleTo != None:
+            pickle.dump(self.result.get("Model"), fileToPickleTo)
+        fileToPickleTo.close()
