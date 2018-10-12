@@ -13,9 +13,10 @@ class ModelCreationFrame(Frame):
         self.grid()
         self.curRow = 0
 
+        self.allData = None
+        self.trainingData = None
+        self.testingData = None
 
-
-        self.CSV_with_Data_and_Labels = ''
         self.CSV_label_cols = []
         self.CSV_feature_col = -1
         self.algFrames = []
@@ -46,19 +47,21 @@ class ModelCreationFrame(Frame):
         self.typeOfLearning = selectedTypeOfLearning
 
     def showSelKindOfData(self):
-        selectkindOfDataBox = ttk.Combobox(self, state='readonly', values=['CSV with Data and Labels'])
+        selectkindOfDataBox = ttk.Combobox(self, state='readonly', values=['1 CSV Auto Split Training and Testing', '2 CSVs 1 Training 1 Testing'])
         selectkindOfDataBox.grid(row=self.curRow, column=0)
         self.curRow += 1
         selectkindOfDataBox.bind("<<ComboboxSelected>>", lambda _: self.showCorrectDataSelection(selectkindOfDataBox.selection_get()))
 
     def showCorrectDataSelection(self, type):
-        if type == 'CSV with Data and Labels':
-            self.updateCSV_with_Data_and_LabelsFile()
-            self.typeOfData = 'CSV with Data and Labels'
-
-    def updateCSV_with_Data_and_LabelsFile(self):
-        self.CSV_with_Data_and_Labels = filedialog.askopenfilename()
+        if type == '1 CSV Auto Split Training and Testing':
+            self.allData = filedialog.askopenfilename(title="Select Data")
+            self.typeOfData = 'All-n-One'
+        elif type == '2 CSVs 1 Training 1 Testing':
+            self.trainingData = filedialog.askopenfilename(title="Select Training Data")
+            self.testingData = filedialog.askopenfilename(title="Select Testing Data")
+            self.typeOfData = "1 Training 1 Testing"
         self.addAnAlgBtn()
+
 
     def addAnAlgBtn(self):
         addAlgFrameBtn = Button(self, text='Add Algorithm', width= 15, bg=Color.GOOD_BUTTON_COLOR.value, command=lambda : self.addAlgFrame())
@@ -86,10 +89,15 @@ class ModelCreationFrame(Frame):
 
     def execute(self):
         orders = []
+        allData = trainingData = testData = None
         for algFrame in self.algFrames:
             orders.append(algFrame.packageForExecution())
-        data = pd.read_csv(self.CSV_with_Data_and_Labels)
-        self.GUI.newWaitingFrame(orders, self.typeOfData, data)
+        if self.typeOfData == "All-n-One":
+            allData = pd.read_csv(self.allData)
+        elif self.typeOfData == "1 Training 1 Testing":
+            trainingData = pd.read_csv(self.trainingData)
+            testData = pd.read_csv(self.trainingData)
+        self.GUI.newWaitingFrame(orders, self.typeOfData, allData=allData, trainingData=trainingData, testingData=testData)
 
     def getSelectedTypeOfLearning(self):
         return self.typeOfLearning

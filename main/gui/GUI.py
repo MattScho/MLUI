@@ -60,9 +60,9 @@ class GUI:
         self.clearMainFrame()
         self.mainFrame = ModelCreationFrame(self)
 
-    def newWaitingFrame(self, orders, typeOfData, data):
+    def newWaitingFrame(self, orders, typeOfData, allData=None, trainingData=None, testingData=None):
         self.clearMainFrame()
-        self.mainFrame = WaitingFrame(self, orders, typeOfData, data)
+        self.mainFrame = WaitingFrame(self, orders, typeOfData, allData=allData, trainingData=trainingData, testingData=testingData)
 
     def newResultFrame(self, res):
         self.clearMainFrame()

@@ -10,33 +10,41 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.linear_model import *
 from sklearn.cluster import *
+from sklearn.model_selection import train_test_split
 
 class Executioner:
-    def __init__(self, listToExecute, dataFrame, typeOfData):
+    def __init__(self, listToExecute, typeOfData, allData=None, trainingData=None, testingData=None):
         self.models = []
 
         self.listToExecute = listToExecute
-        if typeOfData == "CSV with Data and Labels":
-            self.dataX = dataFrame[dataFrame.columns[:-1]]
-            if len(self.dataX.columns) == 2:
-                self.twoDData = True
-            else:
-                self.twoDData = False
-
-            self.dataY = dataFrame[dataFrame.columns[-1]]
-            labels = []
-            self.binaryOut = True
-            for label in self.dataY:
-                if not(label in labels):
-                    if len(labels) < 2:
-                        labels.append(label)
-                    else:
-                        self.binaryOut = False
-                        break
+        if typeOfData == "All-n-One":
+            X = allData[allData.columns[:-1]]
+            y = allData[allData.columns[-1]]
+            self.trainingDataX, self.testingDataX, self.trainingDataY, self.testingDataY = train_test_split(X, y)
+        elif typeOfData == "1 Training 1 Testing":
+            self.trainingDataX = trainingData[trainingData.columns[:-1]]
+            self.trainingDataY = trainingData[trainingData.columns[-1]]
+            self.testingDataX = testingData[testingData.columns[:-1]]
+            self.testingDataY = testingData[testingData.columns[-1]]
 
 
-            print(self.dataX)
-            print("\n Y:" + str(self.dataY))
+        if len(self.trainingDataX.columns) == 2:
+            self.twoDData = True
+        else:
+            self.twoDData = False
+        labels = []
+        self.binaryOut = True
+        for label in self.trainingDataY:
+            if not(label in labels):
+                if len(labels) < 2:
+                    labels.append(label)
+                else:
+                    self.binaryOut = False
+                    break
+
+
+        print(self.trainingDataX)
+        print("\n Y:" + str(self.trainingDataY))
 
     def execute(self):
         for e in self.listToExecute:
@@ -90,20 +98,20 @@ class Executioner:
             model = GaussianNB()
         elif e.get("Algorithm") == "Quadratic Discriminant Analysis":
             model = QuadraticDiscriminantAnalysis()
-        model.fit(self.dataX, self.dataY)
+        model.fit(self.trainingDataX, self.trainingDataY)
         entry = {
             "Type": "Classification",
             "Algorithm": e.get("Algorithm"),
             "Model": model,
             "Statistics":
             {
-                "Accuracy": str(metrics.accuracy_score(self.dataY, model.predict(self.dataX)))[0:4]
+                "Accuracy": str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
             }
         }
         if self.binaryOut:
-            entry["Statistics"]["Precision"] = str(metrics.precision_score(self.dataY, model.predict(self.dataX)))[0:4]
-            entry["Statistics"]["Recall"] = str(metrics.recall_score(self.dataY, model.predict(self.dataX)))[0:4]
-            entry["Statistics"]["F1"] = str(metrics.f1_score(self.dataY, model.predict(self.dataX)))[0:4]
+            entry["Statistics"]["Precision"] = str(metrics.precision_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
+            entry["Statistics"]["Recall"] = str(metrics.recall_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
+            entry["Statistics"]["F1"] = str(metrics.f1_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
 
         return entry
 
@@ -129,15 +137,15 @@ class Executioner:
         elif e.get("Algorithm") == "Gaussian Process Regression":
             gpr_kernel = 1.0 * RBF(1.0)
             model = GaussianProcessRegressor(kernel=gpr_kernel)
-        model.fit(self.dataX, self.dataY)
+        model.fit(self.trainingDataX, self.trainingDataY)
         entry = {
             "Type": "Regression",
             "Algorithm": e.get("Algorithm"),
             "Model": model,
             "Statistics":
             {
-                "Mean Squared Error": str(metrics.mean_squared_error(self.dataY, model.predict(self.dataX)))[0:4],
-                "R^2": str(metrics.r2_score(self.dataY, model.predict(self.dataX)))[0:4]
+                "Mean Squared Error": str(metrics.mean_squared_error(self.testingDataY, model.predict(self.testingDataX)))[0:4],
+                "R^2": str(metrics.r2_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
             }
         }
         return entry
@@ -163,11 +171,11 @@ class Executioner:
         elif e.get("Algorithm") == "Birch":
             birch_n_clusters = e.get("Paramas").get("n_clusters")
             model = Birch(n_clusters=birch_n_clusters)
-        model.fit(self.dataX)
+        model.fit(self.trainingDataX)
         try:
-            modelAccuracy =  str(metrics.accuracy_score(self.dataY, model.predict(self.dataX)))[0:4]
+            modelAccuracy =  str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
         except:
-            modelAccuracy = str(metrics.accuracy_score(self.dataY, model.fit_predict(self.dataX)))[0:4]
+            modelAccuracy = str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
         entry = {
             "Type": "Clustering",
             "Algorithm": e.get("Algorithm"),
