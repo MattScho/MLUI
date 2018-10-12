@@ -1,5 +1,4 @@
-from main.Algorithms.Perceptron import perceptronF
-from main.Algorithms.DecisionTree import decisionTreeF
+
 from sklearn import metrics
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -73,9 +72,7 @@ class Executioner:
             knc_n_neighbors = int(e.get("Params").get("n_neighbors"))
             model = KNeighborsClassifier(n_neighbors=knc_n_neighbors)
         elif e.get("Algorithm") == "Gaussian Process Classifier":
-            gpc_kernel = None
-            if e.get("Params").get("Kernel") == "rbf":
-                gpc_kernel = 1.0 * RBF(1.0)
+            gpc_kernel = 1.0 * RBF(1.0)
             model = GaussianProcessClassifier(kernel=gpc_kernel)
         elif e.get("Algorithm") == "Random Forest Classifier":
             rf_max_depth = e.get("Params").get("Max Depth")
@@ -116,17 +113,23 @@ class Executioner:
         if e.get("Algorithm") == "Linear Regression":
             model = LinearRegression()
         elif e.get("Algorithm") == "Ridge Regression":
-            model = Ridge()
+            ridReg_alpha = e.get("Param").get("alpha")
+            model = Ridge(alpha=ridReg_alpha)
         elif e.get("Algorithm") == "Lasso":
-            model = Lasso()
+            lasso_alpha = e.get("Param").get("alpha")
+            model = Lasso(alpha=lasso_alpha)
         elif e.get("Algorithm") == "Bayesian Ridge Regression":
-            model = BayesianRidge()
+            bayRidReg_n_iter = e.get("Param").get("n_iter")
+            model = BayesianRidge(n_iter=bayRidReg_n_iter)
         elif e.get("Algorithm") == "Logistic Regression":
-            model = LogisticRegression()
+            logReg_max_iter = e.get("Params").get("max_iter")
+            model = LogisticRegression(max_iter=logReg_max_iter)
         elif e.get("Algorithm") == "Support Vector Regression":
-            model = SVR()
+            svr_kernel = 1.0 * RBF(1.0)
+            model = SVR(kernel=svr_kernel)
         elif e.get("Algorithm") == "Gaussian Process Regression":
-            model = GaussianProcessRegressor()
+            gpr_kernel = 1.0 * RBF(1.0)
+            model = GaussianProcessRegressor(kernel=gpr_kernel)
         model.fit(self.dataX, self.dataY)
         entry = {
             "Type": "Regression",
@@ -143,19 +146,24 @@ class Executioner:
     def clusteringHandler(self, e):
         model = None
         if e.get("Algorithm") == "KMeans":
-            model = KMeans()
+            kmeans_n_clustering = e.get("Params").get("n_clusters")
+            model = KMeans(n_clusters=kmeans_n_clustering)
         elif e.get("Algorithm") == "Affinity Propagation":
-            model = AffinityPropagation()
+            affinity_damping = e.get("Params").get("damping")
+            model = AffinityPropagation(damping=affinity_damping)
         elif e.get("Algorithm") == "Mean Shift":
             model = MeanShift()
         elif e.get("Algorithm") == "Spectral Clustering":
-            model = SpectralClustering()
+            spectral_n_clusters = e.get("Params").get("n_clusters")
+            model = SpectralClustering(n_clusters=spectral_n_clusters)
         elif e.get("Algorithm") == "Agglomerative Clustering":
-            model = AgglomerativeClustering()
+            agglomerative_n_clusters = e.get("Params").get("n_clusters")
+            model = AgglomerativeClustering(n_clusters=agglomerative_n_clusters)
         elif e.get("Algorithm") == "DBSCAN":
             model = DBSCAN()
         elif e.get("Algorithm") == "Birch":
-            model = Birch()
+            birch_n_clusters = e.get("Paramas").get("n_clusters")
+            model = Birch(n_clusters=birch_n_clusters)
         model.fit(self.dataX)
         try:
             modelAccuracy =  str(metrics.accuracy_score(self.dataY, model.predict(self.dataX)))[0:4]
