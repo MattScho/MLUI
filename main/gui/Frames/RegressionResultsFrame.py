@@ -15,8 +15,7 @@ class RegressionAlgorithmResultsFrame(Frame):
 
     def addHeader(self):
         algName = Label(master=self, bg=Color.BACKGROUND_COLOR.value, text=self.result.get("Algorithm"))
-        algName.grid(row=self.curRow, column=0)
-        self.curRow += 1
+        algName.pack()
 
     def addParameters(self):
         if self.result.get("Algorithm") == "Decision Tree":
@@ -29,20 +28,17 @@ class RegressionAlgorithmResultsFrame(Frame):
                                 "\nmax_features=" + str(model.max_features) +
                                 "\nmax_leaf_nodes=" + str(model.max_leaf_nodes)
             )
-            params.grid(row=self.curRow, column=0)
-            self.curRow += 1
+            params.pack()
 
     def addStatistics(self):
         accuracyLabel = Label(master=self, bg=Color.BACKGROUND_COLOR.value, text="Mean Squared Error: " + str(self.result.get("Statistics").get("Mean Squared Error")))
-        accuracyLabel.grid(row=self.curRow, column=0)
-        self.curRow += 1
+        accuracyLabel.pack()
 
 
 
     def addPickleBtn(self):
         pickleModelBtn = Button(self, text='Pickle Model', width= 15, bg=Color.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
-        pickleModelBtn.grid(row=self.curRow, column=0)
-        self.curRow += 1
+        pickleModelBtn.pack()
 
     def pickleModel(self):
         fileToPickleTo = filedialog.asksaveasfile(mode='wb', defaultextension=".MLModel")

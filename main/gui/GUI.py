@@ -2,9 +2,9 @@ from tkinter import *
 from tkinter.tix import ScrolledWindow
 from main.gui.Frames.CreateModelFrame import ModelCreationFrame
 from main.gui.Frames.HomeFrame import HomeFrame
-from main.gui.Frames.WaitingFrame import WaitingFrame
 from main.gui.Frames.ResultFrame import ResultFrame
 from main.gui.Utilities.Colors import Color
+import threading
 '''
 The base/backend/persistent GUI object that will facilitate the application
 
@@ -26,7 +26,7 @@ class GUI:
 
         # The frame we will act on clearing and rebuilding for new scenes
         self.mainFrame = Frame(self.root)
-        self.mainFrame.grid()# Fill
+        self.mainFrame.pack()# Fill
 
         # Set secondary characteristics of frame
         self.root.title("SciUI Learn")
@@ -44,12 +44,11 @@ class GUI:
     '''
     def clearMainFrame(self):
         # Destruction of current widgets
-        self.mainFrame.grid_forget()
         self.mainFrame.destroy()
 
         # Reinitialization
         self.mainFrame = Frame(self.root)
-        self.mainFrame.grid()
+        self.mainFrame.pack()
 
 
     def newHomeFrame(self):
@@ -60,10 +59,9 @@ class GUI:
         self.clearMainFrame()
         self.mainFrame = ModelCreationFrame(self)
 
-    def newWaitingFrame(self, orders, typeOfData, allData=None, trainingData=None, testingData=None):
+    def newResultFrame(self, orders, typeOfData, allData=None, trainingData=None, testingData=None):
         self.clearMainFrame()
-        self.mainFrame = WaitingFrame(self, orders, typeOfData, allData=allData, trainingData=trainingData, testingData=testingData)
+        self.mainFrame = ResultFrame(self, orders, typeOfData, allData, trainingData, testingData)
 
-    def newResultFrame(self, res):
-        self.clearMainFrame()
-        self.mainFrame = ResultFrame(self, res)
+    def getRoot(self):
+        return self.root

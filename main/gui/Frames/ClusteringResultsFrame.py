@@ -7,7 +7,6 @@ class ClusteringAlgorithmResultsFrame(Frame):
     def __init__(self, parent, res):
         Frame.__init__(self, master=parent, bg=Color.BACKGROUND_COLOR.value)
         self.result = res
-        self.curRow = 0
         self.addHeader()
         self.addParameters()
         self.addStatistics()
@@ -15,8 +14,7 @@ class ClusteringAlgorithmResultsFrame(Frame):
 
     def addHeader(self):
         algName = Label(master=self, bg=Color.BACKGROUND_COLOR.value, text=self.result.get("Algorithm"))
-        algName.grid(row=self.curRow, column=0)
-        self.curRow += 1
+        algName.pack()
 
     def addParameters(self):
         pass
@@ -24,13 +22,11 @@ class ClusteringAlgorithmResultsFrame(Frame):
     def addStatistics(self):
         accuracyLabel = Label(master=self, bg=Color.BACKGROUND_COLOR.value,
                               text="Accuracy: " + str(self.result.get("Statistics").get("Accuracy")))
-        accuracyLabel.grid(row=self.curRow, column=0)
-        self.curRow += 1
+        accuracyLabel.pack()
 
     def addPickleBtn(self):
         pickleModelBtn = Button(self, text='Pickle Model', width= 15, bg=Color.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
-        pickleModelBtn.grid(row=self.curRow, column=0)
-        self.curRow += 1
+        pickleModelBtn.pack()
 
     def pickleModel(self):
         fileToPickleTo = filedialog.asksaveasfile(mode='wb', defaultextension=".MLModel")

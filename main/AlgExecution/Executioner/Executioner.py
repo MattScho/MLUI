@@ -1,3 +1,5 @@
+# Author: Matthew Schofield
+
 from sklearn import metrics
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -13,6 +15,9 @@ from sklearn.cluster import *
 from sklearn.model_selection import train_test_split
 
 class Executioner:
+    '''
+    Purpose:
+    '''
     def __init__(self, listToExecute, typeOfData, allData=None, trainingData=None, testingData=None):
         self.models = []
 
@@ -120,16 +125,16 @@ class Executioner:
         if e.get("Algorithm") == "Linear Regression":
             model = LinearRegression()
         elif e.get("Algorithm") == "Ridge Regression":
-            ridReg_alpha = e.get("Param").get("alpha")
+            ridReg_alpha = float(e.get("Param").get("alpha"))
             model = Ridge(alpha=ridReg_alpha)
         elif e.get("Algorithm") == "Lasso":
-            lasso_alpha = e.get("Param").get("alpha")
+            lasso_alpha = float(e.get("Param").get("alpha"))
             model = Lasso(alpha=lasso_alpha)
         elif e.get("Algorithm") == "Bayesian Ridge Regression":
-            bayRidReg_n_iter = e.get("Param").get("n_iter")
+            bayRidReg_n_iter = int(e.get("Param").get("n_iter"))
             model = BayesianRidge(n_iter=bayRidReg_n_iter)
         elif e.get("Algorithm") == "Logistic Regression":
-            logReg_max_iter = e.get("Params").get("max_iter")
+            logReg_max_iter = int(e.get("Params").get("max_iter"))
             model = LogisticRegression(max_iter=logReg_max_iter)
         elif e.get("Algorithm") == "Support Vector Regression":
             svr_kernel = 1.0 * RBF(1.0)
