@@ -68,10 +68,7 @@ class ModelCreationFrame(Frame):
         self.addExecuteBtn()
         addAlgFrameBtn.grid(row=self.curRow, column=0)
         self.curRow += 1
-        if self.typeOfLearning == "Classification":
-            self.addAlgFrame(alg="Perceptron")
-        else:
-            self.addAlgFrame()
+        self.addAlgFrame()
 
     def addAlgFrame(self, alg=None):
         if alg == None:

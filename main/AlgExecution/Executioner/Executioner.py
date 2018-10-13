@@ -153,10 +153,10 @@ class Executioner:
     def clusteringHandler(self, e):
         model = None
         if e.get("Algorithm") == "KMeans":
-            kmeans_n_clustering = e.get("Params").get("n_clusters")
+            kmeans_n_clustering = int(e.get("Params").get("n_clusters"))
             model = KMeans(n_clusters=kmeans_n_clustering)
         elif e.get("Algorithm") == "Affinity Propagation":
-            affinity_damping = e.get("Params").get("damping")
+            affinity_damping = int(e.get("Params").get("damping"))
             model = AffinityPropagation(damping=affinity_damping)
         elif e.get("Algorithm") == "Mean Shift":
             model = MeanShift()
