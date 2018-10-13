@@ -18,11 +18,11 @@ Please keep in mind this software is in very early development and is not yet pa
 </ul>
 
 # Goals for v0.3:
-[] Clean up and document code 
-[] Support use of validation sets and parameter tuning 
-[] Add font size customization
-[] Add multithreaded training
-[] Add multiple export options for some algorithms
+- [] Clean up and document code 
+- [] Support use of validation sets and parameter tuning 
+- [] Add font size customization
+- [] Add multithreaded training
+- [] Add multiple export options for some algorithms
 
 # Previous Versions Additions:
 v0.2:
