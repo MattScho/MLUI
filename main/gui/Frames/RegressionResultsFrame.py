@@ -18,17 +18,15 @@ class RegressionAlgorithmResultsFrame(Frame):
         algName.pack()
 
     def addParameters(self):
-        if self.result.get("Algorithm") == "Decision Tree":
-            model = self.result.get("Model")
-            params = Label(master=self, bg=Color.BACKGROUND_COLOR.value,
-                           text="Parameters:" +
-                                "\nclass_weight=" + str(model.class_weight) +
-                                "\ncriterion=" + str(model.criterion) +
-                                "\nmax_depth=" + str(model.max_depth) +
-                                "\nmax_features=" + str(model.max_features) +
-                                "\nmax_leaf_nodes=" + str(model.max_leaf_nodes)
-            )
-            params.pack()
+        model = self.result.get("Model")
+        paramsOutput = ""
+        paramsDict = model.get_params()
+        for param in paramsDict.keys():
+            paramsOutput += param + " = " + str(paramsDict[param]) + "\n"
+        params = Label(master=self, bg=Color.BACKGROUND_COLOR.value,
+                       text="Parameters:\n" + paramsOutput
+                       )
+        params.pack()
 
     def addStatistics(self):
         accuracyLabel = Label(master=self, bg=Color.BACKGROUND_COLOR.value, text="Mean Squared Error: " + str(self.result.get("Statistics").get("Mean Squared Error")))

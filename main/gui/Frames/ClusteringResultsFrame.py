@@ -17,7 +17,15 @@ class ClusteringAlgorithmResultsFrame(Frame):
         algName.pack()
 
     def addParameters(self):
-        pass
+        model = self.result.get("Model")
+        paramsOutput = ""
+        paramsDict = model.get_params()
+        for param in paramsDict.keys():
+            paramsOutput += param + " = " + str(paramsDict[param]) + "\n"
+        params = Label(master=self, bg=Color.BACKGROUND_COLOR.value,
+                       text="Parameters:\n" + paramsOutput
+                       )
+        params.pack()
 
     def addStatistics(self):
         accuracyLabel = Label(master=self, bg=Color.BACKGROUND_COLOR.value,
