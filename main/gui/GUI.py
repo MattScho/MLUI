@@ -1,10 +1,8 @@
 from tkinter import *
-from tkinter.tix import ScrolledWindow
 from main.gui.Frames.CreateModelFrame import ModelCreationFrame
 from main.gui.Frames.HomeFrame import HomeFrame
 from main.gui.Frames.ResultFrame import ResultFrame
-from main.gui.Utilities.Colors import Color
-import threading
+from main.gui.Utilities.Settings import Settings
 '''
 The base/backend/persistent GUI object that will facilitate the application
 
@@ -19,10 +17,10 @@ class GUI:
         # Base Window (really frame)
         self.root = Tk()
 
-        # make the canvas expandable
-        self.root.grid_rowconfigure(0, weight=1)
-        self.root.grid_columnconfigure(0, weight=1)
-        self.root.configure(background=Color.BACKGROUND_COLOR.value)
+
+        # Set background color
+        self.root.configure(background=Settings.BACKGROUND_COLOR.value)
+
 
         # The frame we will act on clearing and rebuilding for new scenes
         self.mainFrame = Frame(self.root)
@@ -37,6 +35,7 @@ class GUI:
         # Begin
         self.root.mainloop()
 
+
     '''
     Clears out current widgets and resets GUI to accept new Frame
     
@@ -45,23 +44,34 @@ class GUI:
     def clearMainFrame(self):
         # Destruction of current widgets
         self.mainFrame.destroy()
-
         # Reinitialization
         self.mainFrame = Frame(self.root)
         self.mainFrame.pack()
 
 
+    '''
+    Sets the main frame of the GUI to the home frame
+    '''
     def newHomeFrame(self):
         self.clearMainFrame()
         self.mainFrame = HomeFrame(self)
 
+    '''
+    Sets the main frame of the GUI to the Model Creation frame
+    '''
     def newModelCreationFrame(self):
         self.clearMainFrame()
         self.mainFrame = ModelCreationFrame(self)
 
+    '''
+    Sets the main frame of the GUI to the Result frame
+    '''
     def newResultFrame(self, orders, typeOfData, allData=None, trainingData=None, testingData=None):
         self.clearMainFrame()
         self.mainFrame = ResultFrame(self, orders, typeOfData, allData, trainingData, testingData)
 
+    '''
+    Gets the root of the tk GUI
+    '''
     def getRoot(self):
         return self.root

@@ -2,11 +2,11 @@ from tkinter import Frame, Entry, Label
 from tkinter import ttk
 from tkinter import *
 from ..Utilities.ToolTip import ToolTip
-from main.gui.Utilities.Colors import Color
+from main.gui.Utilities.Settings import Settings
 from main.Algorithms.AlgorithmsEnum import Algorithm
 class AlgorithmFrame(Frame):
     def __init__(self, parent, algor=None):
-        Frame.__init__(self, master=parent, bg=Color.BACKGROUND_COLOR.value)
+        Frame.__init__(self, master=parent, bg=Settings.BACKGROUND_COLOR.value)
         self.readyToExec = False
 
         self.initializeParamsDict()
@@ -16,7 +16,7 @@ class AlgorithmFrame(Frame):
         for alg in self.listOfAlgorithms:
             if parent.getSelectedTypeOfLearning() == alg.get("Type"):
                 self.algs.append(alg.get("AlgName"))
-        self.selectAlgBox = ttk.Combobox(master=self, state='readonly', values=self.algs)
+        self.selectAlgBox = ttk.Combobox(master=self, font=Settings.REGULAR_FONT,state='readonly', values=self.algs)
         self.selectAlgBox.pack()
         if algor != None:
             self.selectAlgBox.current(self.algs.index(algor))
@@ -31,21 +31,21 @@ class AlgorithmFrame(Frame):
                 algToUse = algor
                 break
         for param in algToUse.get("Simple Parameters"):
-            label = Label(master=self, text=param.get("ParamName"), bg=Color.BACKGROUND_COLOR.value)
+            label = Label(master=self, text=param.get("ParamName"),font=Settings.REGULAR_FONT, bg=Settings.BACKGROUND_COLOR.value)
             label.pack()
             ToolTip(label, param.get("Simple Description"))
             if param.get("Type") == "int" or param.get("Type") == "double" or param.get("Type") == "float":
-                textWidget = Entry(master=self, bg=Color.TEXTFIELD_COLOR.value)
+                textWidget = Entry(master=self,font=Settings.REGULAR_FONT, bg=Settings.TEXTFIELD_COLOR.value)
                 textWidget.insert(END, param.get("Default"))
                 textWidget.pack()
                 self.paramFields.append(textWidget)
             elif param.get("Type") == "bool":
-                selectorWidget = ttk.Combobox(master=self, state='readonly', values=[True, False])
+                selectorWidget = ttk.Combobox(master=self, state='readonly',font=Settings.REGULAR_FONT, values=[True, False])
                 selectorWidget.current(0)
                 selectorWidget.pack()
                 self.paramFields.append(selectorWidget)
             elif param.get("Type") == "options":
-                selectorWidget = ttk.Combobox(master=self, state='readonly', values=param.get("Default"))
+                selectorWidget = ttk.Combobox(master=self, state='readonly',font=Settings.REGULAR_FONT, values=param.get("Default"))
                 selectorWidget.current(0)
                 selectorWidget.pack()
                 self.paramFields.append(selectorWidget)

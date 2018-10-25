@@ -51,18 +51,17 @@ class Algorithm(Enum):
                                               "otherwise the algorithm would enter an infinite loop.\n"
                                               "Too high and it will take longer, but will not negatively effect the model.\n"
                                               "Too low and the model may be inaccurate",
-                        "Advanced Description": ""
+                        "Advanced Description": "Maximum number of epochs\n"
                     },
+
+                ],
+                "Advanced Parameters":[
                     {
                         "ParamName": "Fit_Intercept",
                         "Type": "bool",
                         "Default": "True",
-                        "Simple Description": "Whether the intercept should be estimated or not.\n If False, the data is assumed to be already centered.",
                         "Advanced Description": ""
                     }
-                ],
-                "Advanced Parameters":[
-
                 ]
             }
     DECISION_TREE = {

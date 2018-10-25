@@ -18,10 +18,10 @@ class Executioner:
     '''
     Purpose:
     '''
-    def __init__(self, listToExecute, typeOfData, allData=None, trainingData=None, testingData=None):
+    def __init__(self, order, typeOfData, allData=None, trainingData=None, testingData=None):
         self.models = []
-
-        self.listToExecute = listToExecute
+        self.order = order
+        #self.listToExecute = listToExecute
         if typeOfData == "All-n-One":
             X = allData[allData.columns[:-1]]
             y = allData[allData.columns[-1]]
@@ -52,18 +52,17 @@ class Executioner:
         print("\n Y:" + str(self.trainingDataY))
 
     def execute(self):
-        for e in self.listToExecute:
-            entry = None
-            if e.get("Type") == "Classification":
-                entry = self.classificationHandler(e)
-            elif e.get("Type") == "Regression":
-                entry = self.regressionHandler(e)
-            elif e.get("Type") == "Clustering":
-                entry = self.clusteringHandler(e)
-            print("Entry " + str(entry))
-            self.models.append(
-                entry
-            )
+        entry = None
+        if self.order.get("Type") == "Classification":
+            entry = self.classificationHandler(self.order)
+        elif self.order.get("Type") == "Regression":
+            entry = self.regressionHandler(self.order)
+        elif self.order.get("Type") == "Clustering":
+            entry = self.clusteringHandler(self.order)
+        print("Entry " + str(entry))
+        self.models.append(
+            entry
+        )
         return self.models
 
     def classificationHandler(self, e):

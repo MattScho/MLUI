@@ -2,18 +2,11 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from main.gui.Frames.AlgorithmFrame import AlgorithmFrame
-from main.AlgExecution.Executioner.Executioner import  Executioner
 import pandas as pd
-from main.gui.Utilities.Colors import Color
-import os
-import time
-from datetime import datetime
-import shutil
-import threading
-
+from main.gui.Utilities.Settings import Settings
 class ModelCreationFrame(Frame):
     def __init__(self, GUI):
-        Frame.__init__(self, bg=Color.BACKGROUND_COLOR.value)
+        Frame.__init__(self, bg=Settings.BACKGROUND_COLOR.value)
         self.GUI = GUI
         self.pack()
 
@@ -27,7 +20,7 @@ class ModelCreationFrame(Frame):
         self.showSelTypeOfLearning()
 
     def showSelTypeOfLearning(self):
-        selectTypeOfLearningBox = ttk.Combobox(self, state='readonly', values=['Classification', 'Regression', 'Clustering'])
+        selectTypeOfLearningBox = ttk.Combobox(self, state='readonly',font=Settings.REGULAR_FONT, values=['Classification', 'Regression', 'Clustering'])
         selectTypeOfLearningBox.pack()
         selectTypeOfLearningBox.bind("<<ComboboxSelected>>",
                                  lambda _: self.typeOfLearningSelected(selectTypeOfLearningBox.get()))
@@ -37,7 +30,7 @@ class ModelCreationFrame(Frame):
         self.typeOfLearning = selectedTypeOfLearning
 
     def showSelKindOfData(self):
-        selectkindOfDataBox = ttk.Combobox(self, state='readonly', values=['1 CSV Auto Split Training and Testing', '2 CSVs 1 Training 1 Testing'])
+        selectkindOfDataBox = ttk.Combobox(self, state='readonly',font=Settings.REGULAR_FONT, values=['1 CSV Auto Split Training and Testing', '2 CSVs 1 Training 1 Testing'])
         selectkindOfDataBox.pack()
         selectkindOfDataBox.bind("<<ComboboxSelected>>", lambda _: self.showCorrectDataSelection(selectkindOfDataBox.selection_get()))
 
@@ -53,7 +46,7 @@ class ModelCreationFrame(Frame):
 
 
     def addAnAlgBtn(self):
-        addAlgFrameBtn = Button(self, text='Add Algorithm', width= 15, bg=Color.GOOD_BUTTON_COLOR.value, command=lambda : self.addAlgFrame())
+        addAlgFrameBtn = Button(self, text='Add Algorithm',font=Settings.REGULAR_FONT, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.addAlgFrame())
         self.addExecuteBtn()
         addAlgFrameBtn.pack()
         self.addAlgFrame()
@@ -67,7 +60,7 @@ class ModelCreationFrame(Frame):
         latestAlgFrame.pack()
 
     def addExecuteBtn(self):
-        execBtn = Button(self, text="Execute", width= 15, bg=Color.GOOD_BUTTON_COLOR.value, command=lambda : self.execute())
+        execBtn = Button(self, text="Execute",font=Settings.REGULAR_FONT, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.execute())
         execBtn.pack()
 
     def execute(self):

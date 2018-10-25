@@ -1,11 +1,11 @@
 from tkinter import Frame, Entry, Label,Button
 from tkinter import filedialog
 import pickle
-from main.gui.Utilities.Colors import Color
+from main.gui.Utilities.Settings import Settings
 
 class RegressionAlgorithmResultsFrame(Frame):
     def __init__(self, parent, res):
-        Frame.__init__(self, master=parent, bg=Color.BACKGROUND_COLOR.value)
+        Frame.__init__(self, master=parent, bg=Settings.BACKGROUND_COLOR.value)
         self.result = res
         self.curRow = 0
         self.addHeader()
@@ -14,7 +14,7 @@ class RegressionAlgorithmResultsFrame(Frame):
         self.addPickleBtn()
 
     def addHeader(self):
-        algName = Label(master=self, bg=Color.BACKGROUND_COLOR.value, text=self.result.get("Algorithm"))
+        algName = Label(master=self, font=Settings.REGULAR_FONT,bg=Settings.BACKGROUND_COLOR.value, text=self.result.get("Algorithm"))
         algName.pack()
 
     def addParameters(self):
@@ -23,19 +23,19 @@ class RegressionAlgorithmResultsFrame(Frame):
         paramsDict = model.get_params()
         for param in paramsDict.keys():
             paramsOutput += param + " = " + str(paramsDict[param]) + "\n"
-        params = Label(master=self, bg=Color.BACKGROUND_COLOR.value,
+        params = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,
                        text="Parameters:\n" + paramsOutput
                        )
         params.pack()
 
     def addStatistics(self):
-        accuracyLabel = Label(master=self, bg=Color.BACKGROUND_COLOR.value, text="Mean Squared Error: " + str(self.result.get("Statistics").get("Mean Squared Error")))
+        accuracyLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value, text="Mean Squared Error: " + str(self.result.get("Statistics").get("Mean Squared Error")))
         accuracyLabel.pack()
 
 
 
     def addPickleBtn(self):
-        pickleModelBtn = Button(self, text='Pickle Model', width= 15, bg=Color.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
+        pickleModelBtn = Button(self, text='Pickle Model', width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
         pickleModelBtn.pack()
 
     def pickleModel(self):
