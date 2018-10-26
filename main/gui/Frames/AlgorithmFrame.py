@@ -1,9 +1,12 @@
-from tkinter import Frame, Entry, Label
 from tkinter import ttk
 from tkinter import *
 from ..Utilities.ToolTip import ToolTip
 from main.gui.Utilities.Settings import Settings
 from main.Algorithms.AlgorithmsEnum import Algorithm
+
+'''
+Algorithm Frame for defining an order to send for training
+'''
 class AlgorithmFrame(Frame):
     def __init__(self, parent, algor=None):
         Frame.__init__(self, master=parent, bg=Settings.BACKGROUND_COLOR.value)

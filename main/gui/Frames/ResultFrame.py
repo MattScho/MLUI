@@ -7,9 +7,16 @@ from main.gui.Utilities.Settings import Settings
 from main.AlgExecution.Executioner.Executioner import Executioner
 import threading
 
+'''
+Takes orders and sends them to be trained, while training a progress bar is shown
+When training for an order is complete adds a Frame based on the type of learning done
+to this Frame
+'''
 class ResultFrame(Frame):
+    '''
+    Initializes the frame by starting the execution of orders
+    '''
     def __init__(self, GUI, orders, typeOfData, allData=None, trainingData=None, testingData=None):
-
         Frame.__init__(self, bg=Settings.BACKGROUND_COLOR.value)
         self.scrollbar = Scrollbar(self)
         self.scrollbar.pack(side=RIGHT, fill=Y)
@@ -22,17 +29,37 @@ class ResultFrame(Frame):
             self.start_submit_thread(order, typeOfData, allData, trainingData, testingData, progBar)
 
 
+    '''
+    Generates a Classification results frame
+    '''
     def addClassificationInnerResultFrame(self, result):
         algResFrame = ClassificationAlgorithmResultsFrame(self, result)
         return algResFrame
 
+    '''
+    Generate a Regression results frame
+    '''
     def addRegressionInnerResultFrame(self, result):
         algResFrame = RegressionAlgorithmResultsFrame(self, result)
         return algResFrame
 
+    '''
+    Generates a Clustering results frame
+    '''
     def addClusteringInnerResultFrame(self, result):
         algResFrame = ClusteringAlgorithmResultsFrame(self, result)
         return algResFrame
+
+    '''
+    
+    BEWARE BELOW, multi-threaded python to call Executioner to train the models
+    needs documentation
+    
+    
+    '''
+
+
+
 
     def run(self, orders, typeOfData, allData=None, trainingData=None, testingData=None):
         res = None

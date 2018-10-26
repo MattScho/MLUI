@@ -3,6 +3,9 @@ from tkinter import filedialog
 import pickle
 from main.gui.Utilities.Settings import Settings
 
+'''
+Displays results of a clustering algorithm
+'''
 class ClusteringAlgorithmResultsFrame(Frame):
     def __init__(self, parent, res):
         Frame.__init__(self, master=parent, bg=Settings.BACKGROUND_COLOR.value)

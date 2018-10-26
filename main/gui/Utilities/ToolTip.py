@@ -9,6 +9,9 @@ class ToolTip:
 
     '''
     Binds the tooltip to a given widget with supplied text
+
+    :param tk_widget, widget to add tooltip to
+    :param info, info to have on tooltip
     '''
     def __init__(self, tk_widget, info):
         self.tk_widget = tk_widget

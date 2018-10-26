@@ -4,6 +4,10 @@ from tkinter import filedialog
 from main.gui.Frames.AlgorithmFrame import AlgorithmFrame
 import pandas as pd
 from main.gui.Utilities.Settings import Settings
+
+'''
+Frame for importing data and hosting sub frames for defining algorithms to be used
+'''
 class ModelCreationFrame(Frame):
     def __init__(self, GUI):
         Frame.__init__(self, bg=Settings.BACKGROUND_COLOR.value)

@@ -32,8 +32,6 @@ class RegressionAlgorithmResultsFrame(Frame):
         accuracyLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value, text="Mean Squared Error: " + str(self.result.get("Statistics").get("Mean Squared Error")))
         accuracyLabel.pack()
 
-
-
     def addPickleBtn(self):
         pickleModelBtn = Button(self, text='Pickle Model', width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
         pickleModelBtn.pack()
