@@ -7,7 +7,7 @@ Please keep in mind this software is in very early development and is not yet pa
 # Features
 <ul>
   <li>
-    Easily traing machine learning models
+    Easily train machine learning models
    </li>
   <li>
     Enter in at the layer of complexity you are comfortable with
@@ -20,8 +20,8 @@ Please keep in mind this software is in very early development and is not yet pa
 # Goals for v0.3:
 - [] Clean up and document code 
 - [] Support use of validation sets and parameter tuning 
-- [] Add font size customization
-- [] Add multithreaded training
+- [x] Add font size customization
+- [x] Add multithreaded training
 - [] Add multiple export options for some algorithms
 
 # Previous Versions Additions:
