@@ -59,7 +59,6 @@ class Executioner:
             entry = self.regressionHandler(self.order)
         elif self.order.get("Type") == "Clustering":
             entry = self.clusteringHandler(self.order)
-        print("Entry " + str(entry))
         self.models.append(
             entry
         )

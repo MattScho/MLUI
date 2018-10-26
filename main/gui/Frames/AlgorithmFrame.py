@@ -16,8 +16,10 @@ class AlgorithmFrame(Frame):
         for alg in self.listOfAlgorithms:
             if parent.getSelectedTypeOfLearning() == alg.get("Type"):
                 self.algs.append(alg.get("AlgName"))
-        self.selectAlgBox = ttk.Combobox(master=self, font=Settings.REGULAR_FONT,state='readonly', values=self.algs)
+        self.selectAlgBox = ttk.Combobox(master=self, font=Settings.REGULAR_FONT.value,state='readonly', values=self.algs)
         self.selectAlgBox.pack()
+        self.removeBtn = Button(master=self, font=Settings.REGULAR_FONT.value, text="Remove",bg=Settings.BAD_BUTTON_COLOR.value, command=lambda : parent.removeAlgFrame(self))
+        self.removeBtn.pack()
         if algor != None:
             self.selectAlgBox.current(self.algs.index(algor))
             self.buildParameterInputs(algor)

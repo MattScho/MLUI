@@ -26,7 +26,7 @@ class ToolTip:
         self.tw = tk.Toplevel(self.tk_widget)
         self.tw.wm_overrideredirect(True)
         self.tw.wm_geometry("+%d+%d" % (x, y))
-        label = tk.Label(self.tw, text=self.info, font=Settings.REGULAR_FONT, background=Settings.TOOLTIP_COLOR.value)
+        label = tk.Label(self.tw, text=self.info, font=Settings.REGULAR_FONT.value, background=Settings.TOOLTIP_COLOR.value)
         label.pack(ipadx=1)
 
     '''

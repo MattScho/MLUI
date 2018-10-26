@@ -1,6 +1,7 @@
 from tkinter import *
 from main.gui.Frames.CreateModelFrame import ModelCreationFrame
 from main.gui.Frames.HomeFrame import HomeFrame
+from main.gui.Frames.LoadModelFrame import LoadModelFrame
 from main.gui.Frames.ResultFrame import ResultFrame
 from main.gui.Utilities.Settings import Settings
 '''
@@ -62,6 +63,14 @@ class GUI:
     def newModelCreationFrame(self):
         self.clearMainFrame()
         self.mainFrame = ModelCreationFrame(self)
+
+    '''
+    Sets the main frame of the GUI to the Load Model frame
+    '''
+
+    def newLoadModelFrame(self):
+        self.clearMainFrame()
+        self.mainFrame = LoadModelFrame(self)
 
     '''
     Sets the main frame of the GUI to the Result frame

@@ -59,6 +59,10 @@ class ModelCreationFrame(Frame):
         self.algFrames.append(latestAlgFrame)
         latestAlgFrame.pack()
 
+    def removeAlgFrame(self, frame):
+        self.algFrames.remove(frame)
+        frame.destroy()
+
     def addExecuteBtn(self):
         execBtn = Button(self, text="Execute",font=Settings.REGULAR_FONT, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.execute())
         execBtn.pack()
