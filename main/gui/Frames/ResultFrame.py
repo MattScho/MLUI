@@ -9,9 +9,10 @@ import threading
 
 class ResultFrame(Frame):
     def __init__(self, GUI, orders, typeOfData, allData=None, trainingData=None, testingData=None):
-        self.scrollbar = Scrollbar(GUI.getRoot())
-        self.scrollbar.pack(side=RIGHT, fill=Y)
+
         Frame.__init__(self, bg=Settings.BACKGROUND_COLOR.value)
+        self.scrollbar = Scrollbar(self)
+        self.scrollbar.pack(side=RIGHT, fill=Y)
         self.GUI = GUI
         self.pack()
         print("Orders: " + str(orders))
