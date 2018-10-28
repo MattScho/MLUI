@@ -22,7 +22,7 @@ class ClusteringAlgorithmResultsFrame(Frame):
     def addParameters(self):
         model = self.result.get("Model")
         paramsOutput = ""
-        paramsDict = model.get_params()
+        paramsDict = self.result.get("Params")
         for param in paramsDict.keys():
             paramsOutput += param + " = " + str(paramsDict[param]) + "\n"
         params = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,

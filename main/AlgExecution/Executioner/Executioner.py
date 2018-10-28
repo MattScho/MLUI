@@ -21,10 +21,11 @@ class Executioner:
     def __init__(self, order, typeOfData, allData=None, trainingData=None, testingData=None):
         self.models = []
         self.order = order
-        #self.listToExecute = listToExecute
         if typeOfData == "All-n-One":
             X = allData[allData.columns[:-1]]
             y = allData[allData.columns[-1]]
+            print(X)
+            print(y)
             self.trainingDataX, self.testingDataX, self.trainingDataY, self.testingDataY = train_test_split(X, y)
         elif typeOfData == "1 Training 1 Testing":
             self.trainingDataX = trainingData[trainingData.columns[:-1]]
@@ -106,6 +107,7 @@ class Executioner:
             "Type": "Classification",
             "Algorithm": e.get("Algorithm"),
             "Model": model,
+            "Params": e.get("Params"),
             "Statistics":
             {
                 "Accuracy": str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
@@ -123,10 +125,10 @@ class Executioner:
         if e.get("Algorithm") == "Linear Regression":
             model = LinearRegression()
         elif e.get("Algorithm") == "Ridge Regression":
-            ridReg_alpha = float(e.get("Param").get("alpha"))
+            ridReg_alpha = float(e.get("Params").get("alpha"))
             model = Ridge(alpha=ridReg_alpha)
         elif e.get("Algorithm") == "Lasso":
-            lasso_alpha = float(e.get("Param").get("alpha"))
+            lasso_alpha = float(e.get("Params").get("alpha"))
             model = Lasso(alpha=lasso_alpha)
         elif e.get("Algorithm") == "Bayesian Ridge Regression":
             bayRidReg_n_iter = int(e.get("Param").get("n_iter"))
@@ -145,6 +147,7 @@ class Executioner:
             "Type": "Regression",
             "Algorithm": e.get("Algorithm"),
             "Model": model,
+            "Params": e.get("Params"),
             "Statistics":
             {
                 "Mean Squared Error": str(metrics.mean_squared_error(self.testingDataY, model.predict(self.testingDataX)))[0:4],
@@ -176,13 +179,14 @@ class Executioner:
             model = Birch(n_clusters=birch_n_clusters)
         model.fit(self.trainingDataX)
         try:
-            modelAccuracy =  str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
+            modelAccuracy = str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
         except:
             modelAccuracy = str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
         entry = {
             "Type": "Clustering",
             "Algorithm": e.get("Algorithm"),
             "Model": model,
+            "Params": e.get("Params"),
             "Statistics":
             {
                 "Accuracy": modelAccuracy
