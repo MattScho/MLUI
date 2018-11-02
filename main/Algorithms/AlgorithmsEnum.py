@@ -74,6 +74,18 @@ class Algorithm(Enum):
                         "Default": 1e-3,
                         "Advanced Description": "The stopping criterion. If it is not None, the iterations will stop when (loss > previous_loss - tol). "
                     },
+                    {
+                        "ParamName": "shuffle",
+                        "Type": "bool",
+                        "Default": True,
+                        "Advanced Description": "Whether or not the training data should be shuffled after each epoch."
+                    },
+                    {
+                        "ParamName": "eta0",
+                        "Type": "double",
+                        "Default": 1,
+                        "Advanced Description": "Constant by which the updates are multiplied."
+                    },
 
                 ]
             }
