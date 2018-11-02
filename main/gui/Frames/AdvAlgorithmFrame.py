@@ -44,7 +44,7 @@ class AdvAlgorithmFrame(Frame):
         for param in params:
             label = Label(master=self, text=param.get("ParamName"),font=Settings.REGULAR_FONT, bg=Settings.BACKGROUND_COLOR.value)
             label.pack()
-            ToolTip(label, param.get("Simple Description"))
+            ToolTip(label, param.get("Advanced Description"))
             if param.get("Type") == "int" or param.get("Type") == "double" or param.get("Type") == "float":
                 textWidget = Entry(master=self,font=Settings.REGULAR_FONT, bg=Settings.TEXTFIELD_COLOR.value)
                 textWidget.insert(END, param.get("Default"))

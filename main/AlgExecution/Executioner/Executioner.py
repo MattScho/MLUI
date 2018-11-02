@@ -79,7 +79,6 @@ class Executioner:
             perceptron_max_iter = int(e.get("Params").get("Max_Iter"))
             perceptron_fit_intercept = bool(e.get("Params").get("Fit_Intercept"))
             model = Perceptron(max_iter=perceptron_max_iter, fit_intercept=perceptron_fit_intercept)
-
         elif e.get("Algorithm") == "Decision Tree":
             dtc_max_depth = e.get("Params").get("Max Depth")
             dtc_max_depth = int(dtc_max_depth) if dtc_max_depth != "None" else None

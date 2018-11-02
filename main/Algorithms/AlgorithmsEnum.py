@@ -57,11 +57,24 @@ class Algorithm(Enum):
                 ],
                 "Advanced Parameters":[
                     {
-                        "ParamName": "Fit_Intercept",
-                        "Type": "bool",
-                        "Default": "True",
-                        "Advanced Description": ""
-                    }
+                        "ParamName": "penalty",
+                        "Type": "options",
+                        "Default": ["None","l2", "l1", "elasticnet"],
+                        "Advanced Description": "The penalty (aka regularization term) to be used."
+                    },
+                    {
+                        "ParamName": "alpha",
+                        "Type": "float",
+                        "Default": 0.0001,
+                        "Advanced Description": "Constant that multiplies the regularization term if regularization is used. "
+                    },
+                    {
+                        "ParamName": "tol",
+                        "Type": "float",
+                        "Default": 1e-3,
+                        "Advanced Description": "The stopping criterion. If it is not None, the iterations will stop when (loss > previous_loss - tol). "
+                    },
+
                 ]
             }
     DECISION_TREE = {
