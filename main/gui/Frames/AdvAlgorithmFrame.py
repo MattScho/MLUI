@@ -7,7 +7,7 @@ from main.Algorithms.AlgorithmsEnum import Algorithm
 '''
 Algorithm Frame for defining an order to send for training
 '''
-class AlgorithmFrame(Frame):
+class AdvAlgorithmFrame(Frame):
     def __init__(self, parent, algor=None):
         Frame.__init__(self, master=parent, bg=Settings.BACKGROUND_COLOR.value)
         self.readyToExec = False
@@ -36,7 +36,12 @@ class AlgorithmFrame(Frame):
             if algor.get("AlgName") == alg:
                 algToUse = algor
                 break
+        params = []
         for param in algToUse.get("Simple Parameters"):
+            params.append(param)
+        for param in algToUse.get("Advanced Parameters"):
+            params.append(param)
+        for param in params:
             label = Label(master=self, text=param.get("ParamName"),font=Settings.REGULAR_FONT, bg=Settings.BACKGROUND_COLOR.value)
             label.pack()
             ToolTip(label, param.get("Simple Description"))
@@ -74,6 +79,9 @@ class AlgorithmFrame(Frame):
                 algDict = alg
                 break
         for param in algDict.get("Simple Parameters"):
+            paramsDict[param.get("ParamName")] = paramsList[cur]
+            cur += 1
+        for param in algDict.get("Advanced Parameters"):
             paramsDict[param.get("ParamName")] = paramsList[cur]
             cur += 1
         return {"Algorithm":algName, "Type":algDict.get("Type"), "Params":paramsDict}

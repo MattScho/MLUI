@@ -1,4 +1,4 @@
-from tkinter import Frame, Button, filedialog, Entry
+from tkinter import Frame, Button, filedialog, Entry, Label
 from main.gui.Utilities.Settings import Settings
 import pickle
 import pandas as pd
@@ -15,7 +15,7 @@ class LoadModelFrame(Frame):
         self.addRunBtn()
 
     def addLoadModelBtn(self):
-        loadModel = Button(master=self, text="Load Model", command=lambda : self.importModel())
+        loadModel = Button(master=self, font=Settings.REGULAR_FONT.value, height=3, width=16, bg=Settings.REGULAR_BUTTON2_COLOR.value, text="Load Model", command=lambda : self.importModel())
         loadModel.pack()
 
     def importModel(self):
@@ -23,11 +23,15 @@ class LoadModelFrame(Frame):
         self.model = pickle.load(open(file, "rb"))
 
     def addLoadDataBtn(self):
-        self.loadDataButton = Button(master=self, text="Load Data", command=lambda : self.loadData())
+        self.loadDataButton = Button(master=self, font=Settings.REGULAR_FONT.value, height=3, width=16, bg=Settings.REGULAR_BUTTON1_COLOR.value, text="Load Data", command=lambda : self.loadData())
+        self.orLabel = Label(master=self, text="or")
+        self.vectorEntry = Entry(master=self)
+        self.orLabel.pack()
+        self.vectorEntry.pack()
         self.loadDataButton.pack()
 
     def addRunBtn(self):
-        self.runBtn = Button(self, text="Run", command= lambda: self.run())
+        self.runBtn = Button(self, font=Settings.REGULAR_FONT.value, height=3, width=16, bg=Settings.GOOD_BUTTON_COLOR.value, text="Run", command= lambda: self.run())
         self.runBtn.pack()
 
     def loadData(self):
@@ -36,5 +40,7 @@ class LoadModelFrame(Frame):
 
 
     def run(self):
-        print(self.data)
-        print(self.model.predict(self.data))
+        if self.data != None:
+            print(self.model.predict(self.data))
+        else:
+            print(self.model.predict([np.asarray(self.vectorEntry.get().split(","), dtype=float)]))

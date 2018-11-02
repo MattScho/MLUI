@@ -2,6 +2,7 @@ from tkinter import Frame
 from tkinter import Button
 import os
 from main.gui.Utilities.Settings import Settings
+import subprocess
 
 def launchVisualizationTool():
     os.system("calc")
@@ -34,7 +35,7 @@ class HomeFrame(Frame):
         createModelButton = Button(self, text="Create Model", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda :GUI.newModelCreationFrame())
         createModelButton.pack()
 
-        createAdvModelButton = Button(self, text="Create Advanced Model", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.REGULAR_BUTTON2_COLOR.value)
+        createAdvModelButton = Button(self, text="Create Advanced Model", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.REGULAR_BUTTON2_COLOR.value, command=lambda :GUI.newAdvModelCreationFrame())
         createAdvModelButton.pack()
 
         # The 'Load Model' button onClick launches the LoadModelFrame
@@ -46,5 +47,5 @@ class HomeFrame(Frame):
         visualizationButton.pack()
 
         # The 'Help' button onClick launches the HelpFrame
-        helpButton = Button(self, text="Help", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.REGULAR_BUTTON2_COLOR.value)
+        helpButton = Button(self, text="Help", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.REGULAR_BUTTON2_COLOR.value, command= lambda : subprocess.Popen(["../main/Resources/Help/Help.pdf"],shell=True))
         helpButton.pack()

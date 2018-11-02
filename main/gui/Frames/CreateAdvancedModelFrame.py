@@ -1,14 +1,14 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
-from main.gui.Frames.AlgorithmFrame import AlgorithmFrame
+from main.gui.Frames.AdvAlgorithmFrame import AdvAlgorithmFrame
 import pandas as pd
 from main.gui.Utilities.Settings import Settings
 from main.gui.Frames.CSVSelectorFrame import SelectorFrame
 '''
 Frame for importing data and hosting sub frames for defining algorithms to be used
 '''
-class ModelCreationFrame(Frame):
+class AdvancedModelCreationFrame(Frame):
     def __init__(self, GUI):
         Frame.__init__(self, bg=Settings.BACKGROUND_COLOR.value)
         self.GUI = GUI
@@ -64,9 +64,9 @@ class ModelCreationFrame(Frame):
 
     def addAlgFrame(self, alg=None):
         if alg == None:
-            latestAlgFrame = AlgorithmFrame(self)
+            latestAlgFrame = AdvAlgorithmFrame(self)
         else:
-            latestAlgFrame = AlgorithmFrame(self, algor=alg)
+            latestAlgFrame = AdvAlgorithmFrame(self, algor=alg)
         self.algFrames.append(latestAlgFrame)
         latestAlgFrame.pack()
 

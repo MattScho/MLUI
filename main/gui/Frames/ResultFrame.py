@@ -16,17 +16,14 @@ class ResultFrame(Frame):
     '''
     Initializes the frame by starting the execution of orders
     '''
-    def __init__(self, GUI, orders, typeOfData, allData=None, trainingData=None, testingData=None):
+    def __init__(self, GUI, orders, typeOfData, allData=None, trainingData=None, testingData=None, columnsDict=None):
         Frame.__init__(self, bg=Settings.BACKGROUND_COLOR.value)
-        self.scrollbar = Scrollbar(self)
-        self.scrollbar.pack(side=RIGHT, fill=Y)
         self.GUI = GUI
         self.pack()
-        print("Orders: " + str(orders))
         for order in orders:
             progBar = ttk.Progressbar(self, mode='indeterminate')
             progBar.pack()
-            self.start_submit_thread(order, typeOfData, allData, trainingData, testingData, progBar)
+            self.start_submit_thread(order, typeOfData, allData, trainingData, testingData, progBar, columnsDict)
 
 
     '''
@@ -61,12 +58,12 @@ class ResultFrame(Frame):
 
 
 
-    def run(self, orders, typeOfData, allData=None, trainingData=None, testingData=None):
+    def run(self, orders, typeOfData, allData=None, trainingData=None, testingData=None, columnsDict=None):
         res = None
         if typeOfData == "All-n-One":
-            res = Executioner(orders, typeOfData, allData=allData).execute()
+            res = Executioner(orders, typeOfData, columnsDict, allData=allData).execute()
         elif typeOfData == "1 Training 1 Testing":
-            res = Executioner(orders, typeOfData, testingData=testingData, trainingData=trainingData).execute()
+            res = Executioner(orders, typeOfData, columnsDict, testingData=testingData, trainingData=trainingData).execute()
         typeOfLearning = res[0].get("Type")
         if typeOfLearning == "Classification":
             for result in res:
@@ -79,11 +76,11 @@ class ResultFrame(Frame):
                 self.addClusteringInnerResultFrame(result).pack()
 
 
-    def submit(self, orders, typeOfData, allData, trainingData, testingData):
-        self.run(orders, typeOfData, allData, trainingData, testingData)
+    def submit(self, orders, typeOfData, allData, trainingData, testingData, columnsDict):
+        self.run(orders, typeOfData, allData, trainingData, testingData, columnsDict)
 
-    def start_submit_thread(self, orders, typeOfData, allData, trainingData, testingData, progBar):
-        submit_thread = threading.Thread(target=self.submit, args=(orders, typeOfData, allData, trainingData, testingData))
+    def start_submit_thread(self, orders, typeOfData, allData, trainingData, testingData, progBar, columnsDict):
+        submit_thread = threading.Thread(target=self.submit, args=(orders, typeOfData, allData, trainingData, testingData, columnsDict))
         submit_thread.daemon = True
         progBar.start()
         submit_thread.start()

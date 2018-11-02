@@ -14,7 +14,7 @@ class RegressionAlgorithmResultsFrame(Frame):
         self.addPickleBtn()
 
     def addHeader(self):
-        algName = Label(master=self, font=Settings.REGULAR_FONT,bg=Settings.BACKGROUND_COLOR.value, text=self.result.get("Algorithm"))
+        algName = Label(master=self, font=Settings.REGULAR_FONT.value,bg=Settings.BACKGROUND_COLOR.value, text=self.result.get("Algorithm"))
         algName.pack()
 
     def addParameters(self):
@@ -22,17 +22,17 @@ class RegressionAlgorithmResultsFrame(Frame):
         paramsDict = self.result.get("Params")
         for param in paramsDict.keys():
             paramsOutput += param + " = " + str(paramsDict[param]) + "\n"
-        params = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,
+        params = Label(master=self, font=Settings.REGULAR_FONT.value, bg=Settings.BACKGROUND_COLOR.value,
                        text="Parameters:\n" + paramsOutput
                        )
         params.pack()
 
     def addStatistics(self):
-        accuracyLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value, text="Mean Squared Error: " + str(self.result.get("Statistics").get("Mean Squared Error")))
+        accuracyLabel = Label(master=self, font=Settings.REGULAR_FONT.value, bg=Settings.BACKGROUND_COLOR.value, text="Mean Squared Error: " + str(self.result.get("Statistics").get("Mean Squared Error")))
         accuracyLabel.pack()
 
     def addPickleBtn(self):
-        pickleModelBtn = Button(self, text='Pickle Model', width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
+        pickleModelBtn = Button(self, text='Pickle Model', font=Settings.REGULAR_FONT.value, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
         pickleModelBtn.pack()
 
     def pickleModel(self):

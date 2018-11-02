@@ -18,20 +18,28 @@ class Executioner:
     '''
     Purpose:
     '''
-    def __init__(self, order, typeOfData, allData=None, trainingData=None, testingData=None):
+    def __init__(self, order, typeOfData, columnsDict, allData=None, trainingData=None, testingData=None):
         self.models = []
         self.order = order
+        featuresCols = []
+
+        for key in columnsDict.keys():
+            value = columnsDict.get(key)
+            if value == 1:
+                featuresCols.append(key)
+            elif value == 2:
+                targetCol = key
         if typeOfData == "All-n-One":
-            X = allData[allData.columns[:-1]]
-            y = allData[allData.columns[-1]]
+            X = allData[featuresCols]
+            y = allData[targetCol]
             print(X)
             print(y)
             self.trainingDataX, self.testingDataX, self.trainingDataY, self.testingDataY = train_test_split(X, y)
         elif typeOfData == "1 Training 1 Testing":
-            self.trainingDataX = trainingData[trainingData.columns[:-1]]
-            self.trainingDataY = trainingData[trainingData.columns[-1]]
-            self.testingDataX = testingData[testingData.columns[:-1]]
-            self.testingDataY = testingData[testingData.columns[-1]]
+            self.trainingDataX = trainingData[featuresCols]
+            self.trainingDataY = trainingData[targetCol]
+            self.testingDataX = testingData[featuresCols]
+            self.testingDataY = testingData[targetCol]
 
 
         if len(self.trainingDataX.columns) == 2:

@@ -1,5 +1,6 @@
 from tkinter import *
 from main.gui.Frames.CreateModelFrame import ModelCreationFrame
+from main.gui.Frames.CreateAdvancedModelFrame import AdvancedModelCreationFrame
 from main.gui.Frames.HomeFrame import HomeFrame
 from main.gui.Frames.LoadModelFrame import LoadModelFrame
 from main.gui.Frames.ResultFrame import ResultFrame
@@ -65,6 +66,13 @@ class GUI:
         self.mainFrame = ModelCreationFrame(self)
 
     '''
+    Sets the main frame of the GUI to the Model Creation frame
+    '''
+    def newAdvModelCreationFrame(self):
+        self.clearMainFrame()
+        self.mainFrame = AdvancedModelCreationFrame(self)
+
+    '''
     Sets the main frame of the GUI to the Load Model frame
     '''
 
@@ -75,9 +83,9 @@ class GUI:
     '''
     Sets the main frame of the GUI to the Result frame
     '''
-    def newResultFrame(self, orders, typeOfData, allData=None, trainingData=None, testingData=None):
+    def newResultFrame(self, orders, typeOfData, allData=None, trainingData=None, testingData=None, columnsDict=None):
         self.clearMainFrame()
-        self.mainFrame = ResultFrame(self, orders, typeOfData, allData, trainingData, testingData)
+        self.mainFrame = ResultFrame(self, orders, typeOfData, allData, trainingData, testingData, columnsDict)
 
     '''
     Gets the root of the tk GUI
