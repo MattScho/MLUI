@@ -115,9 +115,21 @@ class Algorithm(Enum):
                         "Simple Description": "",
                         "Advanced Description": ""
                     },
+
                 ],
                 "Advanced Parameters":[
-
+                    {
+                        "ParamName": "C",
+                        "Type": "float",
+                        "Default": 1.0,
+                        "Advanced Description": "Penalty parameter C of the error term"
+                    },
+                    {
+                        "ParamName": "kernel",
+                        "Type": "options",
+                        "Default": ["linear", "poly", "rbf", "sigmoid"],
+                        "Advanced Description": "Por term"
+                    },
                 ]
             }
     K_NEIGHBORS_CLASSIFIER = {
