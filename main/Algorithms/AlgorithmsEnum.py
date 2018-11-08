@@ -74,7 +74,18 @@ class Algorithm(Enum):
                         "Default": 1e-3,
                         "Advanced Description": "The stopping criterion. If it is not None, the iterations will stop when (loss > previous_loss - tol). "
                     },
-
+                    {
+                        "ParamName": "shuffle",
+                        "Type": "bool",
+                        "Default": True,
+                        "Advanced Description": "Whether or not the training data should be shuffled after each epoch."
+                    },
+                    {
+                        "ParamName": "eta0",
+                        "Type": "double",
+                        "Default": 1,
+                        "Advanced Description": "Constant by which the updates are multiplied."
+                    },
                 ]
             }
     DECISION_TREE = {
@@ -96,42 +107,104 @@ class Algorithm(Enum):
 
                 ],
                 "Advanced Parameters": [
-
+                    {
+                        "ParamName": "criterion",
+                        "Type": "options",
+                        "Default": ["gini", "entropy"],
+                        "Advanced Description": "The function to measure the quality of a split. "
+                                                "\nSupported criteria are “gini” for the Gini impurity and "
+                                                "\n“entropy” for the information gain."
+                    },
+                    {
+                        "ParamName": "splitter",
+                        "Type": "options",
+                        "Default": ["best", "random"],
+                        "Advanced Description": "The strategy used to choose the split at each node. "
+                                                "\nSupported strategies are “best” to choose the best split and "
+                                                "\n“random” to choose the best random split."
+                    },
                 ]
             }
     SUPPORT_VECTOR_CLASSIFIER = {
-                "AlgName": "Support Vector Classifier",
-                "Type": "Classification",
+        "AlgName": "Support Vector Classifier",
+        "Type": "Classification",
+        "Simple Description": "",
+        "Advanced Description": "",
+        "Keywords": [
+
+        ],
+        "Simple Parameters": [
+            {
+                "ParamName": "Kernel",
+                "Type": "options",
+                "Default": ["rbf", "poly", "sigmoid", "linear"],
                 "Simple Description": "",
-                "Advanced Description": "",
-                "Keywords": [
+                "Advanced Description": ""
+            },
 
-                ],
-                "Simple Parameters": [
-                    {
-                        "ParamName": "Kernel",
-                        "Type": "options",
-                        "Default": ["rbf", "poly", "sigmoid", "linear"],
-                        "Simple Description": "",
-                        "Advanced Description": ""
-                    },
-
-                ],
-                "Advanced Parameters":[
-                    {
-                        "ParamName": "C",
-                        "Type": "float",
-                        "Default": 1.0,
-                        "Advanced Description": "Penalty parameter C of the error term"
-                    },
-                    {
-                        "ParamName": "kernel",
-                        "Type": "options",
-                        "Default": ["linear", "poly", "rbf", "sigmoid"],
-                        "Advanced Description": "Por term"
-                    },
-                ]
-            }
+        ],
+        "Advanced Parameters": [
+            {
+                "ParamName": "C",
+                "Type": "float",
+                "Default": 1.0,
+                "Advanced Description": "Penalty parameter C of the error term"
+            },
+            {
+                "ParamName": "degree",
+                "Type": "int",
+                "Default": 3,
+                "Advanced Description": "Degree of the polynomial kernel function (‘poly’)."
+                                        "\nIgnored by all other kernels."
+            },
+            {
+                "ParamName": "gamma",
+                "Type": "float",
+                "Default": "auto",
+                "Advanced Description": "Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’." +
+                    "\nCurrent default is ‘auto’ which uses 1 / n_features," +
+                    "\nif gamma='scale' is passed then it uses 1 / (n_features * X.std()) as value of gamma.a"
+            },
+            {
+                "ParamName": "coef0",
+                "Type": "float",
+                "Default": 0.0,
+                "Advanced Description": "Independent term in kernel function. It is only significant in ‘poly’ and ‘sigmoid’."
+            },
+            {
+                "ParamName": "shrinking",
+                "Type": "bool",
+                "Default": 0,
+                "Advanced Description": "Whether to use the shrinking heuristic."
+            },
+            {
+                "ParamName": "probability",
+                "Type": "bool",
+                "Default": 1,
+                "Advanced Description": "Whether to enable probability estimates. This must be enabled prior to calling fit, and will slow down that method."
+            },
+            {
+                "ParamName": "tol",
+                "Type": "float",
+                "Default": 1e-3,
+                "Advanced Description": "Tolerance for stopping criterion."
+            },
+            {
+                "ParamName": "cache_size",
+                "Type": "float",
+                "Default": -1,
+                "Advanced Description": "Specify the size of the kernel cache (in MB)." +
+                    "\n-1 to not pass."
+            },
+            {
+                "ParamName": "max_iter",
+                "Type": "int",
+                "Default": -1,
+                "Advanced Description": "Hard limit on iterations within solver, or -1 for no limit." +
+                    "\n-1 to not pass."
+            },
+        ]
+    }
     K_NEIGHBORS_CLASSIFIER = {
         "AlgName": "K Neighbors Classifier",
         "Type": "Classification",
@@ -150,124 +223,155 @@ class Algorithm(Enum):
             },
         ],
         "Advanced Parameters": [
-
+            {
+                "ParamName": "weights",
+                "Type": "options",
+                "Default": ["uniform", "distance"],
+                "Simple Description": "",
+                "Advanced Description": "weight function used in prediction. Possible values:" +
+                    "\n‘uniform’ : uniform weights. All points in each neighborhood are weighted equally." +
+                    "\n‘distance’ : weight points by the inverse of their distance. in this case, closer" +
+                    "\n\tneighbors of a query point will have a greater influence than neighbors which are further away"
+            },
+            {
+                "ParamName": "algorithm",
+                "Type": "options",
+                "Default": ["brute", "auto", "ball_tree", "kd_tree"],
+                "Simple Description": "",
+                "Advanced Description": "Algorithm used to compute the nearest neighbors:" +
+                    "\n‘ball_tree’ will use BallTree" +
+                    "\n‘kd_tree’ will use KDTree" +
+                    "\n'brute’ will use a brute-force search." +
+                    "\n'auto’ will attempt to decide the most appropriate algorithm based on the values passed to fit method." +
+                    "\nNote: fitting on sparse input will override the setting of this parameter, using brute force."
+            },
+            {
+                "ParamName": "leaf_size",
+                "Type": "int",
+                "Default": 30,
+                "Simple Description": "",
+                "Advanced Description": "Leaf size passed to BallTree or KDTree."
+                                        "\nThis can affect the speed of the construction and query,"
+                                        "\nas well as the memory required to store the tree."
+                                        "\nThe optimal value depends on the nature of the problem."
+            },
         ]
     }
     GAUSSIAN_PROCESS_CLASSIFIER = {
-                "AlgName": "Gaussian Process Classifier",
-                "Type": "Classification",
+        "AlgName": "Gaussian Process Classifier",
+        "Type": "Classification",
+        "Simple Description": "",
+        "Advanced Description": "",
+        "Keywords": [
+
+        ],
+        "Simple Parameters": [
+            {
+                "ParamName": "Kernel",
+                "Type": "options",
+                "Default": ["rbf", "poly", "sigmoid", "linear"],
                 "Simple Description": "",
-                "Advanced Description": "",
-                "Keywords": [
+                "Advanced Description": ""
+            },
+        ],
+        "Advanced Parameters": [
 
-                ],
-                "Simple Parameters": [
-                    {
-                        "ParamName": "Kernel",
-                        "Type": "options",
-                        "Default": ["rbf", "poly", "sigmoid", "linear"],
-                        "Simple Description": "",
-                        "Advanced Description": ""
-                    },
-                ],
-                "Advanced Parameters": [
-
-                ]
-            }
+        ]
+    }
     RANDOM_FOREST_CLASSIFIER = {
-                "AlgName": "Random Forest Classifier",
-                "Type": "Classification",
+        "AlgName": "Random Forest Classifier",
+        "Type": "Classification",
+        "Simple Description": "",
+        "Advanced Description": "",
+        "Keywords": [
+
+        ],
+        "Simple Parameters": [
+            {
+                "ParamName": "Max Depth",
+                "Type": "int",
+                "Default": "None",
                 "Simple Description": "",
-                "Advanced Description": "",
-                "Keywords": [
+                "Advanced Description": ""
+            },
+            {
+                "ParamName": "Number of Trees (n_estimators)",
+                "Type": "int",
+                "Default": "10",
+                "Simple Description": "",
+                "Advanced Description": ""
+            },
+        ],
+        "Advanced Parameters": [
 
-                ],
-                "Simple Parameters": [
-                    {
-                        "ParamName": "Max Depth",
-                        "Type": "int",
-                        "Default": "None",
-                        "Simple Description": "",
-                        "Advanced Description": ""
-                    },
-                    {
-                        "ParamName": "Number of Trees (n_estimators)",
-                        "Type": "int",
-                        "Default": "10",
-                        "Simple Description": "",
-                        "Advanced Description": ""
-                    },
-                ],
-                "Advanced Parameters": [
-
-                ]
-            }
+        ]
+    }
     MULTI_LAYER_PERCEPTRON = {
-                "AlgName": "Multi-layer Perceptron",
-                "Type": "Classification",
+        "AlgName": "Multi-layer Perceptron",
+        "Type": "Classification",
+        "Simple Description": "",
+        "Advanced Description": "",
+        "Keywords": [
+
+        ],
+        "Simple Parameters": [
+            {
+                "ParamName": "alpha",
+                "Type": "float",
+                "Default": ".0001",
                 "Simple Description": "",
-                "Advanced Description": "",
-                "Keywords": [
+                "Advanced Description": ""
+            },
+        ],
+        "Advanced Parameters": [
 
-                ],
-                "Simple Parameters": [
-                    {
-                        "ParamName": "alpha",
-                        "Type": "float",
-                        "Default": ".0001",
-                        "Simple Description": "",
-                        "Advanced Description": ""
-                    },
-                ],
-                "Advanced Parameters": [
-
-                ]
-            }
+        ]
+    }
     ADABOOST_CLASSIFIER = {
-                "AlgName": "AdaBoost Classifier",
-                "Type": "Classification",
-                "Simple Description": "",
-                "Advanced Description": "",
-                "Keywords": [
+        "AlgName": "AdaBoost Classifier",
+        "Type": "Classification",
+        "Simple Description": "",
+        "Advanced Description": "",
+        "Keywords": [
 
-                ],
-                "Simple Parameters": [
+        ],
+        "Simple Parameters": [
 
-                ],
-                "Advanced Parameters": [
+        ],
+        "Advanced Parameters": [
 
-                ]
-            }
+        ]
+    }
     GUASSIAN_NAIVE_BAYES = {
-                "AlgName": "Gaussian Naive Bayes",
-                "Type": "Classification",
-                "Simple Description": "",
-                "Advanced Description": "",
-                "Keywords": [
+        "AlgName": "Gaussian Naive Bayes",
+        "Type": "Classification",
+        "Simple Description": "",
+        "Advanced Description": "",
+        "Keywords": [
 
-                ],
-                "Simple Parameters": [
+        ],
+        "Simple Parameters": [
 
-                ],
-                "Advanced Parameters": [
+        ],
+        "Advanced Parameters": [
 
-                ]
-            }
+        ]
+    }
     QUADRATIC_DISCRIMINANT_AANALYSIS = {
-                "AlgName": "Quadratic Discriminant Analysis",
-                "Type": "Classification",
-                "Simple Description": "",
-                "Advanced Description": "",
-                "Keywords": [
+        "AlgName": "Quadratic Discriminant Analysis",
+        "Type": "Classification",
+        "Simple Description": "",
+        "Advanced Description": "",
+        "Keywords": [
 
-                ],
-                "Simple Parameters": [
+        ],
+        "Simple Parameters": [
 
-                ],
-                "Advanced Parameters": [
+        ],
+        "Advanced Parameters": [
 
-                ]
-            }
+        ]
+    }
 
     # REGRESSION
     LINEAR_REGRESSION = {
@@ -409,7 +513,7 @@ class Algorithm(Enum):
 
         ]}
 
-    #CLUSTERING
+    # CLUSTERING
     KMEANS = {
         "AlgName": "KMeans",
         "Type": "Clustering",
@@ -452,7 +556,7 @@ class Algorithm(Enum):
 
         ]
     }
-    MEAN_SHIFT ={
+    MEAN_SHIFT = {
         "AlgName": "Mean Shift",
         "Type": "Clustering",
         "Simple Description": "",
@@ -509,7 +613,7 @@ class Algorithm(Enum):
 
         ]
     }
-    DBSCAN ={
+    DBSCAN = {
         "AlgName": "DBSCAN",
         "Type": "Clustering",
         "Simple Description": "",
@@ -524,7 +628,7 @@ class Algorithm(Enum):
 
         ]
     }
-    BIRCH ={
+    BIRCH = {
         "AlgName": "Birch",
         "Type": "Clustering",
         "Simple Description": "",
