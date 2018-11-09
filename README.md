@@ -17,10 +17,11 @@ Please keep in mind this software is in very early development and is not yet pa
   </li>
 </ul>
 
-# Goals for v0.4:
+# Goals for v0.5:
 - [] Clean up and document code 
 - [] Support use of validation sets and parameter tuning 
-- [] Begin advanced model creation options
+- [] Keras support
+- [] Scrollbars
 
 # Previous Versions Additions:
 v0.3:
