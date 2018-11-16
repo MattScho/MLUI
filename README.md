@@ -19,9 +19,9 @@ Please keep in mind this software is in very early development and is not yet pa
 
 # Goals for v0.5:
 - [] Clean up and document code 
-- [] Support use of validation sets and parameter tuning 
-- [] Keras support
-- [] Scrollbars
+- [x] Support use of validation sets and parameter tuning 
+- [x] Keras support
+- [x] Scrollbars
 
 # Previous Versions Additions:
 v0.3:
