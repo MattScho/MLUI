@@ -4,7 +4,7 @@ from main.gui.Frames.ClassificationResultsFrame import ClassificationAlgorithmRe
 from main.gui.Frames.RegressionResultsFrame import RegressionAlgorithmResultsFrame
 from main.gui.Frames.ClusteringResultsFrame import ClusteringAlgorithmResultsFrame
 from main.gui.Utilities.Settings import Settings
-from main.AlgExecution.Executioner.Executioner import Executioner
+from main.AlgExecution.Executioner.AdvExecutioner import Executioner
 import threading
 
 '''
@@ -12,7 +12,7 @@ Takes orders and sends them to be trained, while training a progress bar is show
 When training for an order is complete adds a Frame based on the type of learning done
 to this Frame
 '''
-class ResultFrame(Frame):
+class AdvResultFrame(Frame):
     '''
     Initializes the frame by starting the execution of orders
     '''
@@ -64,8 +64,6 @@ class ResultFrame(Frame):
             res = Executioner(orders, typeOfData, columnsDict, allData=allData).execute()
         elif typeOfData == "1 Training 1 Testing":
             res = Executioner(orders, typeOfData, columnsDict, testingData=testingData, trainingData=trainingData).execute()
-        elif typeOfData == "K-Fold 1 CSV":
-            res = Executioner(orders, typeOfData, columnsDict, allData=allData).execute()
         typeOfLearning = res[0].get("Type")
         if typeOfLearning == "Classification":
             for result in res:

@@ -9,8 +9,8 @@ from main.gui.Frames.CSVSelectorFrame import SelectorFrame
 Frame for importing data and hosting sub frames for defining algorithms to be used
 '''
 class AdvancedModelCreationFrame(Frame):
-    def __init__(self, GUI):
-        Frame.__init__(self, bg=Settings.BACKGROUND_COLOR.value)
+    def __init__(self, GUI, parent):
+        Frame.__init__(self, master=parent, bg=Settings.BACKGROUND_COLOR.value)
         self.GUI = GUI
         self.pack()
 

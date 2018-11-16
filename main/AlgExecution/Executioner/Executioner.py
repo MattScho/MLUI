@@ -13,16 +13,16 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.linear_model import *
 from sklearn.cluster import *
 from sklearn.model_selection import train_test_split
-
+from sklearn.model_selection import cross_validate
 class Executioner:
     '''
     Purpose:
     '''
-    def __init__(self, order, typeOfData, columnsDict, allData=None, trainingData=None, testingData=None):
+    def __init__(self, order, typeOfData, columnsDict, allData=None, trainingData=None, testingData=None,):
         self.models = []
         self.order = order
         featuresCols = []
-
+        self.typeOfData = typeOfData
         for key in columnsDict.keys():
             value = columnsDict.get(key)
             if value == 1:
@@ -32,16 +32,15 @@ class Executioner:
         if typeOfData == "All-n-One":
             X = allData[featuresCols]
             y = allData[targetCol]
-            print(X)
-            print(y)
             self.trainingDataX, self.testingDataX, self.trainingDataY, self.testingDataY = train_test_split(X, y)
         elif typeOfData == "1 Training 1 Testing":
             self.trainingDataX = trainingData[featuresCols]
             self.trainingDataY = trainingData[targetCol]
             self.testingDataX = testingData[featuresCols]
             self.testingDataY = testingData[targetCol]
-
-
+        elif typeOfData == "K-Fold 1 CSV":
+            self.trainingDataX = allData[featuresCols]
+            self.trainingDataY = allData[targetCol]
         if len(self.trainingDataX.columns) == 2:
             self.twoDData = True
         else:
@@ -56,9 +55,6 @@ class Executioner:
                     self.binaryOut = False
                     break
 
-
-        print(self.trainingDataX)
-        print("\n Y:" + str(self.trainingDataY))
 
     def execute(self):
         entry = None
@@ -79,6 +75,7 @@ class Executioner:
             perceptron_max_iter = int(e.get("Params").get("Max_Iter"))
             perceptron_fit_intercept = bool(e.get("Params").get("Fit_Intercept"))
             model = Perceptron(max_iter=perceptron_max_iter, fit_intercept=perceptron_fit_intercept)
+
         elif e.get("Algorithm") == "Decision Tree":
             dtc_max_depth = e.get("Params").get("Max Depth")
             dtc_max_depth = int(dtc_max_depth) if dtc_max_depth != "None" else None
@@ -110,21 +107,37 @@ class Executioner:
         elif e.get("Algorithm") == "Quadratic Discriminant Analysis":
             model = QuadraticDiscriminantAnalysis()
         model.fit(self.trainingDataX, self.trainingDataY)
-        entry = {
-            "Type": "Classification",
-            "Algorithm": e.get("Algorithm"),
-            "Model": model,
-            "Params": e.get("Params"),
-            "Statistics":
-            {
-                "Accuracy": str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
+        if self.typeOfData == "K-Fold 1 CSV":
+            scoring = ['accuracy', 'precision_macro', 'recall_macro', 'f1_macro']
+            scores = cross_validate(model, self.trainingDataX, self.trainingDataY, scoring=scoring, cv=3, return_train_score=True)
+            entry = {
+                "Type": "Classification",
+                "Algorithm": e.get("Algorithm"),
+                "Model": model,
+                "Params": e.get("Params"),
+                "Statistics":
+                    {
+                        "Accuracy": str(scores['test_accuracy'].mean())[0:4],
+                        "Precision": str(scores["test_precision_macro"].mean())[0:4],
+                        "Recall": str(scores["test_recall_macro"].mean())[0:4],
+                        "F1": str(scores["test_f1_macro"].mean())[0:4]
+                    }
             }
-        }
-        if self.binaryOut:
-            entry["Statistics"]["Precision"] = str(metrics.precision_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
-            entry["Statistics"]["Recall"] = str(metrics.recall_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
-            entry["Statistics"]["F1"] = str(metrics.f1_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
 
+        elif self.typeOfData == "All-n-One" or self.typeOfData == "1 Training 1 Testing":
+            entry = {
+                "Type": "Classification",
+                "Algorithm": e.get("Algorithm"),
+                "Model": model,
+                "Params": e.get("Params"),
+                "Statistics":
+                {
+                    "Accuracy": str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4],
+                    "Precision": str(metrics.precision_score(self.testingDataY, model.predict(self.testingDataX), average='macro'))[0:4],
+                    "Recall": str(metrics.recall_score(self.testingDataY, model.predict(self.testingDataX), average='macro'))[0:4],
+                    "F1": str(metrics.f1_score(self.testingDataY, model.predict(self.testingDataX), average='macro'))[0:4]
+                }
+            }
         return entry
 
     def regressionHandler(self, e):

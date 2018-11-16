@@ -5,6 +5,7 @@ from main.gui.Frames.HomeFrame import HomeFrame
 from main.gui.Frames.LoadModelFrame import LoadModelFrame
 from main.gui.Frames.ResultFrame import ResultFrame
 from main.gui.Utilities.Settings import Settings
+from main.gui.Utilities.SFrame import ScrolledFrame
 '''
 The base/backend/persistent GUI object that will facilitate the application
 
@@ -25,7 +26,7 @@ class GUI:
 
 
         # The frame we will act on clearing and rebuilding for new scenes
-        self.mainFrame = Frame(self.root)
+        self.mainFrame = ScrolledFrame(self.root)
         self.mainFrame.pack()# Fill
 
         # Set secondary characteristics of frame
@@ -47,7 +48,7 @@ class GUI:
         # Destruction of current widgets
         self.mainFrame.destroy()
         # Reinitialization
-        self.mainFrame = Frame(self.root)
+        self.mainFrame = ScrolledFrame(self.root)
         self.mainFrame.pack()
 
 
@@ -56,21 +57,21 @@ class GUI:
     '''
     def newHomeFrame(self):
         self.clearMainFrame()
-        self.mainFrame = HomeFrame(self)
+        HomeFrame(self, self.mainFrame.canv)
 
     '''
     Sets the main frame of the GUI to the Model Creation frame
     '''
     def newModelCreationFrame(self):
         self.clearMainFrame()
-        self.mainFrame = ModelCreationFrame(self)
+        ModelCreationFrame(self, self.mainFrame.canv)
 
     '''
     Sets the main frame of the GUI to the Model Creation frame
     '''
     def newAdvModelCreationFrame(self):
         self.clearMainFrame()
-        self.mainFrame = AdvancedModelCreationFrame(self)
+        self.mainFrame = AdvancedModelCreationFrame(self, self.mainFrame.canv)
 
     '''
     Sets the main frame of the GUI to the Load Model frame
@@ -78,17 +79,20 @@ class GUI:
 
     def newLoadModelFrame(self):
         self.clearMainFrame()
-        self.mainFrame = LoadModelFrame(self)
+        self.mainFrame = LoadModelFrame(self, self.mainFrame.canv)
 
     '''
     Sets the main frame of the GUI to the Result frame
     '''
     def newResultFrame(self, orders, typeOfData, allData=None, trainingData=None, testingData=None, columnsDict=None):
         self.clearMainFrame()
-        self.mainFrame = ResultFrame(self, orders, typeOfData, allData, trainingData, testingData, columnsDict)
+        self.mainFrame = ResultFrame(self, self.mainFrame.canv, orders, typeOfData, allData, trainingData, testingData, columnsDict)
 
     '''
     Gets the root of the tk GUI
     '''
     def getRoot(self):
         return self.root
+
+    def getMainFrame(self):
+        return self.mainFrame

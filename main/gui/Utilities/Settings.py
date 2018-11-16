@@ -4,7 +4,7 @@ from enum import Enum
 settings = {}
 
 # Read in settings from settings.txt file
-with open("./settings.txt", "r") as file:
+with open("D:\Projects\SciKitUI\main\settings.txt", "r") as file:
     # Read contents of file in as a list
     individualSettings = file.read().split('\n')
     # closes file

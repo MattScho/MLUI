@@ -5,8 +5,8 @@ import pandas as pd
 import numpy as np
 
 class LoadModelFrame(Frame):
-    def __init__(self, GUI):
-        Frame.__init__(self, bg=Settings.BACKGROUND_COLOR.value)
+    def __init__(self, GUI, parent):
+        Frame.__init__(self, master=parent, bg=Settings.BACKGROUND_COLOR.value)
         self.GUI = GUI
         self.pack()
         self.data = None

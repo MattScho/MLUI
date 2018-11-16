@@ -1,5 +1,4 @@
-from tkinter import Frame
-from tkinter import Button
+from tkinter import Button, Frame
 import os
 from main.gui.Utilities.Settings import Settings
 import subprocess
@@ -25,27 +24,27 @@ class HomeFrame(Frame):
 
     :param GUI, the parent GUI (stage) object used to launch new frames
     '''
-    def __init__(self, GUI):
-        # Construct super class with orangish background
-        Frame.__init__(self,   bg=Settings.BACKGROUND_COLOR.value)
+    def __init__(self, GUI, parent):
+        # Construct super class
+        Frame.__init__(self, master=parent, bg=Settings.BACKGROUND_COLOR.value)
         # Lines things up
         self.pack()
 
         # The 'Create Model' button, onClick launches the CreateModelFrame
         createModelButton = Button(self, text="Create Model", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda :GUI.newModelCreationFrame())
-        createModelButton.pack()
+        createModelButton.pack(padx=10, pady=10)
 
         createAdvModelButton = Button(self, text="Create Advanced Model", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.REGULAR_BUTTON2_COLOR.value, command=lambda :GUI.newAdvModelCreationFrame())
-        createAdvModelButton.pack()
+        createAdvModelButton.pack(padx=10, pady=10)
 
         # The 'Load Model' button onClick launches the LoadModelFrame
         loadModelButton = Button(self, text="Load Model", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.REGULAR_BUTTON1_COLOR.value, command=lambda :GUI.newLoadModelFrame())
-        loadModelButton.pack()
+        loadModelButton.pack(padx=10, pady=10)
 
         # The 'Visualization Tool' button onClick launches defined visualization software
         visualizationButton = Button(self, text="Visualization Tool", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.GOOD_BUTTON_COLOR.value, command= lambda : launchVisualizationTool())
-        visualizationButton.pack()
+        visualizationButton.pack(padx=10, pady=10)
 
         # The 'Help' button onClick launches the HelpFrame
         helpButton = Button(self, text="Help", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.REGULAR_BUTTON2_COLOR.value, command= lambda : subprocess.Popen(["../main/Resources/Help/Help.pdf"],shell=True))
-        helpButton.pack()
+        helpButton.pack(padx=10, pady=10)

@@ -57,9 +57,6 @@ class Executioner:
                     break
 
 
-        print(self.trainingDataX)
-        print("\n Y:" + str(self.trainingDataY))
-
     def execute(self):
         entry = None
         if self.order.get("Type") == "Classification":
@@ -77,8 +74,13 @@ class Executioner:
         model = None
         if e.get("Algorithm") == "Perceptron":
             perceptron_max_iter = int(e.get("Params").get("Max_Iter"))
-            perceptron_fit_intercept = bool(e.get("Params").get("Fit_Intercept"))
-            model = Perceptron(max_iter=perceptron_max_iter, fit_intercept=perceptron_fit_intercept)
+            perceptron_penalty = e.get("Params").get("penalty")
+            perceptron_alpha = float(e.get("Params").get("alpha"))
+            perceptron_tol = float(e.get("Params").get("tol"))
+            perceptron_shuffle = bool(e.get("Params").get("shuffle"))
+            perceptron_eta0 = float(e.get("Params").get("eta0"))
+            model = Perceptron(max_iter=perceptron_max_iter, penalty=perceptron_penalty,
+                        alpha=perceptron_alpha, tol=perceptron_tol, shuffle=perceptron_shuffle, eta0= perceptron_eta0)
 
         elif e.get("Algorithm") == "Decision Tree":
             dtc_max_depth = e.get("Params").get("Max Depth")
