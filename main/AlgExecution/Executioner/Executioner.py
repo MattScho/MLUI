@@ -14,6 +14,8 @@ from sklearn.linear_model import *
 from sklearn.cluster import *
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_validate
+import time
+
 class Executioner:
     '''
     Purpose:
@@ -21,6 +23,7 @@ class Executioner:
     def __init__(self, order, typeOfData, columnsDict, allData=None, trainingData=None, testingData=None,):
         self.models = []
         self.order = order
+        print(order)
         featuresCols = []
         self.typeOfData = typeOfData
         for key in columnsDict.keys():
@@ -106,38 +109,36 @@ class Executioner:
             model = GaussianNB()
         elif e.get("Algorithm") == "Quadratic Discriminant Analysis":
             model = QuadraticDiscriminantAnalysis()
+        start = time.time()
         model.fit(self.trainingDataX, self.trainingDataY)
+        end = time.time()
+        entry = {
+            "Type": "Classification",
+            "Algorithm": e.get("Algorithm"),
+            "Model": model,
+            "Params": e.get("Params"),
+            "Statistics":
+                {
+                }
+        }
         if self.typeOfData == "K-Fold 1 CSV":
             scoring = ['accuracy', 'precision_macro', 'recall_macro', 'f1_macro']
             scores = cross_validate(model, self.trainingDataX, self.trainingDataY, scoring=scoring, cv=3, return_train_score=True)
-            entry = {
-                "Type": "Classification",
-                "Algorithm": e.get("Algorithm"),
-                "Model": model,
-                "Params": e.get("Params"),
-                "Statistics":
-                    {
+            entry["Statistics"] = {
                         "Accuracy": str(scores['test_accuracy'].mean())[0:4],
                         "Precision": str(scores["test_precision_macro"].mean())[0:4],
                         "Recall": str(scores["test_recall_macro"].mean())[0:4],
                         "F1": str(scores["test_f1_macro"].mean())[0:4]
                     }
-            }
 
         elif self.typeOfData == "All-n-One" or self.typeOfData == "1 Training 1 Testing":
-            entry = {
-                "Type": "Classification",
-                "Algorithm": e.get("Algorithm"),
-                "Model": model,
-                "Params": e.get("Params"),
-                "Statistics":
-                {
+            entry ["Statistics"] ={
                     "Accuracy": str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4],
                     "Precision": str(metrics.precision_score(self.testingDataY, model.predict(self.testingDataX), average='macro'))[0:4],
                     "Recall": str(metrics.recall_score(self.testingDataY, model.predict(self.testingDataX), average='macro'))[0:4],
                     "F1": str(metrics.f1_score(self.testingDataY, model.predict(self.testingDataX), average='macro'))[0:4]
                 }
-            }
+        entry["Statistics"]["Fit Time"] = int(end - start)
         return entry
 
     def regressionHandler(self, e):
@@ -162,18 +163,29 @@ class Executioner:
         elif e.get("Algorithm") == "Gaussian Process Regression":
             gpr_kernel = 1.0 * RBF(1.0)
             model = GaussianProcessRegressor(kernel=gpr_kernel)
+
+        start = time.time()
         model.fit(self.trainingDataX, self.trainingDataY)
+        end = time.time()
         entry = {
             "Type": "Regression",
             "Algorithm": e.get("Algorithm"),
             "Model": model,
             "Params": e.get("Params"),
-            "Statistics":
-            {
-                "Mean Squared Error": str(metrics.mean_squared_error(self.testingDataY, model.predict(self.testingDataX)))[0:4],
-                "R^2": str(metrics.r2_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
-            }
         }
+        if self.typeOfData == "K-Fold 1 CSV":
+            scoring = ['neg_mean_squared_error']
+            scores = cross_validate(model, self.trainingDataX, self.trainingDataY, scoring=scoring, cv=3,
+                                    return_train_score=True)
+            entry["Statistics"] = {
+                "Mean Squared Error": str(-1*scores['test_neg_mean_squared_error'].mean())[0:4],
+            }
+
+        elif self.typeOfData == "All-n-One" or self.typeOfData == "1 Training 1 Testing":
+            entry["Statistics"] = {
+                "Mean Squared Error":str(-1*metrics.neg_mean_squared_error(self.testingDataY, model.predict(self.testingDataX)))[0:4]
+            }
+        entry["Statistics"]["Fit Time"] = int(end-start)
         return entry
 
     def clusteringHandler(self, e):

@@ -28,8 +28,10 @@ class RegressionAlgorithmResultsFrame(Frame):
         params.pack()
 
     def addStatistics(self):
-        accuracyLabel = Label(master=self, font=Settings.REGULAR_FONT.value, bg=Settings.BACKGROUND_COLOR.value, text="Mean Squared Error: " + str(self.result.get("Statistics").get("Mean Squared Error")))
-        accuracyLabel.pack()
+        meanSquaredErrorLabel = Label(master=self, font=Settings.REGULAR_FONT.value, bg=Settings.BACKGROUND_COLOR.value, text="Mean Squared Error: " + str(self.result.get("Statistics").get("Mean Squared Error")))
+        meanSquaredErrorLabel.pack()
+        trainTimeLabel = Label(master=self, font=Settings.REGULAR_FONT.value, bg=Settings.BACKGROUND_COLOR.value, text="Training Time: " + str(self.result.get("Statistics").get("Fit Time")) + " seconds")
+        trainTimeLabel.pack()
 
     def addPickleBtn(self):
         pickleModelBtn = Button(self, text='Pickle Model', font=Settings.REGULAR_FONT.value, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())

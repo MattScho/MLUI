@@ -30,6 +30,7 @@ class ResultFrame(Frame):
     Generates a Classification results frame
     '''
     def addClassificationInnerResultFrame(self, result):
+        print("df")
         algResFrame = ClassificationAlgorithmResultsFrame(self, result)
         return algResFrame
 
@@ -37,6 +38,7 @@ class ResultFrame(Frame):
     Generate a Regression results frame
     '''
     def addRegressionInnerResultFrame(self, result):
+        print("j")
         algResFrame = RegressionAlgorithmResultsFrame(self, result)
         return algResFrame
 
@@ -46,6 +48,10 @@ class ResultFrame(Frame):
     def addClusteringInnerResultFrame(self, result):
         algResFrame = ClusteringAlgorithmResultsFrame(self, result)
         return algResFrame
+
+
+
+
 
     '''
     

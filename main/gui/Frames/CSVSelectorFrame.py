@@ -26,7 +26,7 @@ class SelectorFrame(Frame):
     def paintButtons(self):
         for i,k in enumerate(self.cols.keys()):
             btn = Button(master=self, text=k, bg=self.colors[self.cols[k]], command=lambda i=i: self.changeColor(i))
-            btn.pack()
+            btn.pack(padx=5, pady=20, side=LEFT)
             self.buttons.append(btn)
 
     def changeColor(self, i):

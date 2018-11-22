@@ -26,7 +26,7 @@ class ModelCreationFrame(Frame):
 
     def showSelTypeOfLearning(self):
         self.selectTypeOfLearningBox = ttk.Combobox(self, state='readonly',font=Settings.REGULAR_FONT.value, values=['Classification', 'Regression', 'Clustering'])
-        self.selectTypeOfLearningBox.pack()
+        self.selectTypeOfLearningBox.pack(padx=10, pady=10)
         self.selectTypeOfLearningBox.bind("<<ComboboxSelected>>",
                                  lambda _: self.typeOfLearningSelected(self.selectTypeOfLearningBox.get()))
 
@@ -37,7 +37,7 @@ class ModelCreationFrame(Frame):
 
     def showSelKindOfData(self):
         self.selectkindOfDataBox = ttk.Combobox(self, state='readonly',font=Settings.REGULAR_FONT.value, values=['1 CSV Auto Split Training and Testing', '2 CSVs 1 Training 1 Testing', "K-Fold 1 CSV"])
-        self.selectkindOfDataBox.pack()
+        self.selectkindOfDataBox.pack(padx=10, pady=10)
         self.selectkindOfDataBox.bind("<<ComboboxSelected>>", lambda _: self.showCorrectDataSelection(self.selectkindOfDataBox.selection_get()))
 
     def showCorrectDataSelection(self, type):
@@ -59,7 +59,7 @@ class ModelCreationFrame(Frame):
 
     def addSelectorFrame(self, data):
         self.columnsSelectorFrame = SelectorFrame(self, data)
-        self.columnsSelectorFrame.pack()
+        self.columnsSelectorFrame.pack(padx=10, pady=10)
 
     def addAnAlgBtn(self):
         addAlgFrameBtn = Button(self, text='Add Algorithm',font=Settings.REGULAR_FONT.value, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.addAlgFrame())
@@ -73,7 +73,7 @@ class ModelCreationFrame(Frame):
         else:
             latestAlgFrame = AlgorithmFrame(self, algor=alg)
         self.algFrames.append(latestAlgFrame)
-        latestAlgFrame.pack()
+        latestAlgFrame.pack(padx=10, pady=10)
 
     def removeAlgFrame(self, frame):
         self.algFrames.remove(frame)
@@ -81,7 +81,7 @@ class ModelCreationFrame(Frame):
 
     def addExecuteBtn(self):
         execBtn = Button(self, text="Execute",font=Settings.REGULAR_FONT.value, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.execute())
-        execBtn.pack()
+        execBtn.pack(padx=10, pady=10)
 
     def execute(self):
         orders = []

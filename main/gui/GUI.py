@@ -19,15 +19,17 @@ class GUI:
 
         # Base Window (really frame)
         self.root = Tk()
-
+        self.root.geometry("300x900")
 
         # Set background color
         self.root.configure(background=Settings.BACKGROUND_COLOR.value)
 
 
         # The frame we will act on clearing and rebuilding for new scenes
-        self.mainFrame = ScrolledFrame(self.root)
-        self.mainFrame.pack()# Fill
+        self.mainFrame = ScrolledFrame(self.root, bg=Settings.BACKGROUND_COLOR.value, width=700, height=700) # Don't allow the widgets inside to determine the frame's width / height
+
+        self.mainFrame.pack()
+
 
         # Set secondary characteristics of frame
         self.root.title("SciUI Learn")
@@ -48,8 +50,10 @@ class GUI:
         # Destruction of current widgets
         self.mainFrame.destroy()
         # Reinitialization
-        self.mainFrame = ScrolledFrame(self.root)
-        self.mainFrame.pack()
+        self.mainFrame = ScrolledFrame(self.root, bg=Settings.BACKGROUND_COLOR.value, width=1700, height=1700) # Don't allow the widgets inside to determine the frame's width / height
+
+        self.mainFrame.pack_propagate(0)
+        self.mainFrame.pack(fill=BOTH, expand=False)
 
 
     '''

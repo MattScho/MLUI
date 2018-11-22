@@ -34,15 +34,17 @@ class ClassificationAlgorithmResultsFrame(Frame):
         accuracyLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Accuracy: " + str(self.result.get("Statistics").get("Accuracy")))
         accuracyLabel.pack()
 
-        if self.result.get("Statistics").get("Precision") != None:
-            precLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Precision: " + str(self.result.get("Statistics").get("Precision")))
-            precLabel.pack()
+        precLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Precision: " + str(self.result.get("Statistics").get("Precision")))
+        precLabel.pack()
 
-            recLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Recall: " + str(self.result.get("Statistics").get("Recall")))
-            recLabel.pack()
+        recLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Recall: " + str(self.result.get("Statistics").get("Recall")))
+        recLabel.pack()
 
-            f1Label = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="F1: " + str(self.result.get("Statistics").get("F1")))
-            f1Label.pack()
+        f1Label = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="F1: " + str(self.result.get("Statistics").get("F1")))
+        f1Label.pack()
+
+        trainTimeLabel = Label(master=self, font=Settings.REGULAR_FONT.value, bg=Settings.BACKGROUND_COLOR.value, text="Training Time: " + str(self.result.get("Statistics").get("Fit Time")) + " seconds")
+        trainTimeLabel.pack()
 
     def addPickleBtn(self):
         pickleModelBtn = Button(self, text='Pickle Model', width= 15,font=Settings.REGULAR_FONT, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())

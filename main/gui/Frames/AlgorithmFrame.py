@@ -20,9 +20,9 @@ class AlgorithmFrame(Frame):
             if parent.getSelectedTypeOfLearning() == alg.get("Type"):
                 self.algs.append(alg.get("AlgName"))
         self.selectAlgBox = ttk.Combobox(master=self, font=Settings.REGULAR_FONT.value,state='readonly', values=self.algs)
-        self.selectAlgBox.pack()
+        self.selectAlgBox.pack(padx=5, pady=5)
         self.removeBtn = Button(master=self, font=Settings.REGULAR_FONT.value, text="Remove",bg=Settings.BAD_BUTTON_COLOR.value, command=lambda : parent.removeAlgFrame(self))
-        self.removeBtn.pack()
+        self.removeBtn.pack(padx=5, pady=5)
         if algor != None:
             self.selectAlgBox.current(self.algs.index(algor))
             self.buildParameterInputs(algor)
@@ -31,30 +31,33 @@ class AlgorithmFrame(Frame):
 
     def buildParameterInputs(self, alg):
         self.selectAlgBox.config(state="disabled")
-        algToUse = {}
-        for algor in self.listOfAlgorithms:
-            if algor.get("AlgName") == alg:
-                algToUse = algor
-                break
-        for param in algToUse.get("Simple Parameters"):
-            label = Label(master=self, text=param.get("ParamName"),font=Settings.REGULAR_FONT, bg=Settings.BACKGROUND_COLOR.value)
-            label.pack()
-            ToolTip(label, param.get("Simple Description"))
-            if param.get("Type") == "int" or param.get("Type") == "double" or param.get("Type") == "float":
-                textWidget = Entry(master=self,font=Settings.REGULAR_FONT, bg=Settings.TEXTFIELD_COLOR.value)
-                textWidget.insert(END, param.get("Default"))
-                textWidget.pack()
-                self.paramFields.append(textWidget)
-            elif param.get("Type") == "bool":
-                selectorWidget = ttk.Combobox(master=self, state='readonly',font=Settings.REGULAR_FONT, values=[True, False])
-                selectorWidget.current(0)
-                selectorWidget.pack()
-                self.paramFields.append(selectorWidget)
-            elif param.get("Type") == "options":
-                selectorWidget = ttk.Combobox(master=self, state='readonly',font=Settings.REGULAR_FONT, values=param.get("Default"))
-                selectorWidget.current(0)
-                selectorWidget.pack()
-                self.paramFields.append(selectorWidget)
+        if alg == "Neural Network":
+            pass
+        else:
+            algToUse = {}
+            for algor in self.listOfAlgorithms:
+                if algor.get("AlgName") == alg:
+                    algToUse = algor
+                    break
+            for param in algToUse.get("Simple Parameters"):
+                label = Label(master=self, text=param.get("ParamName"),font=Settings.REGULAR_FONT, bg=Settings.BACKGROUND_COLOR.value)
+                label.pack(padx=5, pady=5)
+                ToolTip(label, param.get("Simple Description"))
+                if param.get("Type") == "int" or param.get("Type") == "double" or param.get("Type") == "float":
+                    textWidget = Entry(master=self,font=Settings.REGULAR_FONT, bg=Settings.TEXTFIELD_COLOR.value)
+                    textWidget.insert(END, param.get("Default"))
+                    textWidget.pack()
+                    self.paramFields.append(textWidget)
+                elif param.get("Type") == "bool":
+                    selectorWidget = ttk.Combobox(master=self, state='readonly',font=Settings.REGULAR_FONT, values=[True, False])
+                    selectorWidget.current(0)
+                    selectorWidget.pack()
+                    self.paramFields.append(selectorWidget)
+                elif param.get("Type") == "options":
+                    selectorWidget = ttk.Combobox(master=self, state='readonly',font=Settings.REGULAR_FONT, values=param.get("Default"))
+                    selectorWidget.current(0)
+                    selectorWidget.pack()
+                    self.paramFields.append(selectorWidget)
 
 
     def isReadyToExec(self):

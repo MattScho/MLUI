@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter.ttk import *
 
+from main.gui.Utilities.Settings import Settings
 class ScrolledFrame(Frame):
     def __init__(self, parent,  *args, **kw):
         tk.Frame.__init__(self, parent,   *args, **kw)
@@ -19,7 +20,7 @@ class ScrolledFrame(Frame):
         vertscrollbar = Scrollbar(self, orient=VERTICAL)
         vertscrollbar.pack(fill=Y, side=RIGHT, expand=FALSE)
         
-        canvas = Canvas(self, bd=0, yscrollcommand=vertscrollbar.set)
+        canvas = Canvas(self, bg=Settings.BACKGROUND_COLOR.value, bd=0, yscrollcommand=vertscrollbar.set)
         canvas.pack(side=LEFT, fill=BOTH, expand=TRUE)
         
         vertscrollbar.config(command=canvas.yview)
@@ -27,7 +28,7 @@ class ScrolledFrame(Frame):
         canvas.xview_moveto(0)
         canvas.yview_moveto(0)
 
-        self.canv = Frame(canvas)
+        self.canv = tk.Frame(canvas, bg=Settings.BACKGROUND_COLOR.value,width=768, height=576)
         canv_id = canvas.create_window(0, 0, window=self.canv, anchor=NW)
 
 

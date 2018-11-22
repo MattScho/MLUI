@@ -16,7 +16,7 @@ class LoadModelFrame(Frame):
 
     def addLoadModelBtn(self):
         loadModel = Button(master=self, font=Settings.REGULAR_FONT.value, height=3, width=16, bg=Settings.REGULAR_BUTTON2_COLOR.value, text="Load Model", command=lambda : self.importModel())
-        loadModel.pack()
+        loadModel.pack(padx=10, pady=10)
 
     def importModel(self):
         file = filedialog.askopenfilename()
@@ -24,15 +24,15 @@ class LoadModelFrame(Frame):
 
     def addLoadDataBtn(self):
         self.loadDataButton = Button(master=self, font=Settings.REGULAR_FONT.value, height=3, width=16, bg=Settings.REGULAR_BUTTON1_COLOR.value, text="Load Data", command=lambda : self.loadData())
-        self.orLabel = Label(master=self, text="or")
+        self.orLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value, text="or")
         self.vectorEntry = Entry(master=self)
-        self.orLabel.pack()
-        self.vectorEntry.pack()
-        self.loadDataButton.pack()
+        self.orLabel.pack(padx=10, pady=10)
+        self.vectorEntry.pack(padx=10, pady=10)
+        self.loadDataButton.pack(padx=10, pady=10)
 
     def addRunBtn(self):
         self.runBtn = Button(self, font=Settings.REGULAR_FONT.value, height=3, width=16, bg=Settings.GOOD_BUTTON_COLOR.value, text="Run", command= lambda: self.run())
-        self.runBtn.pack()
+        self.runBtn.pack(padx=10, pady=10)
 
     def loadData(self):
         file = filedialog.askopenfilename()
