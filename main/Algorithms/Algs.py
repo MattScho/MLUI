@@ -122,6 +122,26 @@ class Algorithm(Enum):
                                                 "\nSupported strategies are “best” to choose the best split and "
                                                 "\n“random” to choose the best random split."
                     },
+					
+                    {
+                        "ParamName": "min_samples_split",
+                        "Type": "float",
+                        "Default": 2,
+                        "Advanced Description": "The minimum number of samples required to split an internal node:"
+                            "\nif int, then consider min_samples_split as the minimum number."
+                            "\nIf float, then min_samples_split is a fraction and ceil(min_samples_split * n_samples)"
+                            "\nare the minimum number of samples for each split."
+                    },
+                    {
+                        "ParamName": "min_samples_leaf ",
+                        "Type": "float",
+                        "Default": 1,
+                        "Advanced Description": "The minimum number of samples required to be at a leaf node."
+                                                "\nA split point at any depth will only be considered if it leaves at least min_samples_leaf training samples in each of the left and right branches."
+                                                "\nThis may have the effect of smoothing the model, especially in regression."
+                                                "\nIf int, then consider min_samples_leaf as the minimum number."
+                                                "\nIf float, then min_samples_leaf is a fraction and ceil(min_samples_leaf * n_samples) are the minimum number of samples for each node."
+                    },
                 ]
             }
     SUPPORT_VECTOR_CLASSIFIER = {
