@@ -13,7 +13,11 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.linear_model import *
 from sklearn.cluster import *
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_validate
 
+import keras as k
+from keras.layers import *
+import time
 class Executioner:
     '''
     Purpose:
@@ -22,6 +26,7 @@ class Executioner:
         self.models = []
         self.order = order
         featuresCols = []
+        self.typeOfData = typeOfData
 
         for key in columnsDict.keys():
             value = columnsDict.get(key)
@@ -32,30 +37,15 @@ class Executioner:
         if typeOfData == "All-n-One":
             X = allData[featuresCols]
             y = allData[targetCol]
-            print(X)
-            print(y)
             self.trainingDataX, self.testingDataX, self.trainingDataY, self.testingDataY = train_test_split(X, y)
         elif typeOfData == "1 Training 1 Testing":
             self.trainingDataX = trainingData[featuresCols]
             self.trainingDataY = trainingData[targetCol]
             self.testingDataX = testingData[featuresCols]
             self.testingDataY = testingData[targetCol]
-
-
-        if len(self.trainingDataX.columns) == 2:
-            self.twoDData = True
-        else:
-            self.twoDData = False
-        labels = []
-        self.binaryOut = True
-        for label in self.trainingDataY:
-            if not(label in labels):
-                if len(labels) < 2:
-                    labels.append(label)
-                else:
-                    self.binaryOut = False
-                    break
-
+        elif typeOfData == "K-Fold 1 CSV":
+            self.trainingDataX = allData[featuresCols]
+            self.trainingDataY = allData[targetCol]
 
     def execute(self):
         entry = None
@@ -85,7 +75,16 @@ class Executioner:
         elif e.get("Algorithm") == "Decision Tree":
             dtc_max_depth = e.get("Params").get("Max Depth")
             dtc_max_depth = int(dtc_max_depth) if dtc_max_depth != "None" else None
-            model = DecisionTreeClassifier(max_depth=dtc_max_depth)
+            dtc_criterion = e.get("Params").get("criterion")
+            dtc_splitter = e.get("Params").get("splitter")
+            dtc_min_samples_split = e.get("Params").get("min_samples_split")
+            print(dtc_min_samples_split)
+            dtc_min_samples_split = float(dtc_min_samples_split) if int(dtc_min_samples_split) == 0 else int(dtc_min_samples_split)
+            dtc_min_samples_leaf = e.get("Params").get("min_samples_leaf")
+            print(dtc_min_samples_leaf)
+            dtc_min_samples_leaf = float(dtc_min_samples_leaf) if int(dtc_min_samples_leaf) == 0 else int(dtc_min_samples_leaf)
+            model = DecisionTreeClassifier(max_depth=dtc_max_depth, criterion=dtc_criterion, splitter=dtc_splitter,
+                                           min_samples_split=dtc_min_samples_split, min_samples_leaf=dtc_min_samples_leaf)
         elif e.get("Algorithm") == "Support Vector Classifier":
             svc_kernel = e.get("Params").get("Kernel")
             model = SVC(kernel=svc_kernel)
@@ -112,22 +111,68 @@ class Executioner:
             model = GaussianNB()
         elif e.get("Algorithm") == "Quadratic Discriminant Analysis":
             model = QuadraticDiscriminantAnalysis()
-        model.fit(self.trainingDataX, self.trainingDataY)
+        elif e.get("Algorithm") == "Neural Network (Keras)":
+            networkDef = e.get("Params").get("Network")
+            overallNetwork = networkDef[0]
+            if overallNetwork[0] == "Sequential":
+                model = k.Sequential()
+
+            model.add(Dense(units=networkDef[1].get("Nodes"),  activation=networkDef[1].get("Activation")))
+            layerDefs = networkDef[2:]
+            for layer in layerDefs:
+                if layer.get("Type") == "Dense":
+                    model.add(Dense(units=layer.get("Nodes"), activation=layer.get("Activation")))
+                elif layer.get("Type") == "Conv 1D":
+                    model.add(Conv1D(layer.get("Nodes"), 3, activation=layer.get("Activation")))
+            model.compile(loss='binary_crossentropy',
+              optimizer='adam',
+              metrics=[overallNetwork[1]])
+        if e.get("Algorithm") == "Neural Network (Keras)":
+            start = time.time()
+            model.fit(self.trainingDataX.values, k.utils.to_categorical(self.trainingDataY.values), epochs=overallNetwork[2], batch_size=overallNetwork[3])
+            end = time.time()
+        else:
+            start = time.time()
+            model.fit(self.trainingDataX.values, self.trainingDataY.values)
+            end = time.time()
         entry = {
             "Type": "Classification",
             "Algorithm": e.get("Algorithm"),
             "Model": model,
             "Params": e.get("Params"),
             "Statistics":
-            {
-                "Accuracy": str(metrics.accuracy_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
-            }
+                {
+                }
         }
-        if self.binaryOut:
-            entry["Statistics"]["Precision"] = str(metrics.precision_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
-            entry["Statistics"]["Recall"] = str(metrics.recall_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
-            entry["Statistics"]["F1"] = str(metrics.f1_score(self.testingDataY, model.predict(self.testingDataX)))[0:4]
+        if self.typeOfData == "K-Fold 1 CSV":
+            scoring = ['accuracy', 'precision_macro', 'recall_macro', 'f1_macro']
+            scores = cross_validate(model, self.trainingDataX, self.trainingDataY, scoring=scoring, cv=3,
+                                    return_train_score=True)
+            entry["Statistics"] = {
+                "Accuracy": str(scores['test_accuracy'].mean())[0:4],
+                "Precision": str(scores["test_precision_macro"].mean())[0:4],
+                "Recall": str(scores["test_recall_macro"].mean())[0:4],
+                "F1": str(scores["test_f1_macro"].mean())[0:4]
+            }
 
+        elif self.typeOfData == "All-n-One" or self.typeOfData == "1 Training 1 Testing":
+            if e.get("Algorithm") == "Neural Network (Keras)":
+                entry["Statistics"] = {
+                    "Accuracy": str(1.0),
+                    "Precision": str(1.0),
+                    "Recall": str(1.0),
+                    "F1": str(1.0)
+                }
+            else:
+                entry["Statistics"] = {
+                    "Accuracy": str(metrics.accuracy_score(self.testingDataY.values, model.predict(self.testingDataX.values)))[0:4],
+                    "Precision": str(
+                        metrics.precision_score(self.testingDataY.values, model.predict(self.testingDataX.values), average='macro'))[0:4],
+                    "Recall": str(
+                        metrics.recall_score(self.testingDataY.values, model.predict(self.testingDataX.values), average='macro'))[0:4],
+                    "F1": str(metrics.f1_score(self.testingDataY.values, model.predict(self.testingDataX.values), average='macro'))[0:4]
+                }
+        entry["Statistics"]["Fit Time"] = int(end - start)
         return entry
 
     def regressionHandler(self, e):

@@ -135,7 +135,7 @@ class Algorithm(Enum):
                             "\nare the minimum number of samples for each split."
                     },
                     {
-                        "ParamName": "min_samples_leaf ",
+                        "ParamName": "min_samples_leaf",
                         "Type": "float",
                         "Default": 1,
                         "Advanced Description": "The minimum number of samples required to be at a leaf node."

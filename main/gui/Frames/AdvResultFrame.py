@@ -64,6 +64,8 @@ class AdvResultFrame(Frame):
             res = Executioner(orders, typeOfData, columnsDict, allData=allData).execute()
         elif typeOfData == "1 Training 1 Testing":
             res = Executioner(orders, typeOfData, columnsDict, testingData=testingData, trainingData=trainingData).execute()
+        elif typeOfData == "K-Fold 1 CSV":
+            res = Executioner(orders, typeOfData, columnsDict, allData=allData).execute()
         typeOfLearning = res[0].get("Type")
         if typeOfLearning == "Classification":
             for result in res:

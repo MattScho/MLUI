@@ -43,4 +43,4 @@ class LoadModelFrame(Frame):
         if self.data != None:
             print(self.model.predict(self.data))
         else:
-            print(self.model.predict([np.asarray(self.vectorEntry.get().split(","), dtype=float)]))
+            print(self.model.predict(np.asarray([self.vectorEntry.get().split(",")], dtype=float)))

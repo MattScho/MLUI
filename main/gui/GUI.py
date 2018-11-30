@@ -4,6 +4,7 @@ from main.gui.Frames.CreateAdvancedModelFrame import AdvancedModelCreationFrame
 from main.gui.Frames.HomeFrame import HomeFrame
 from main.gui.Frames.LoadModelFrame import LoadModelFrame
 from main.gui.Frames.ResultFrame import ResultFrame
+from main.gui.Frames.AdvResultFrame import AdvResultFrame
 from main.gui.Utilities.Settings import Settings
 from main.gui.Utilities.SFrame import ScrolledFrame
 '''
@@ -75,7 +76,7 @@ class GUI:
     '''
     def newAdvModelCreationFrame(self):
         self.clearMainFrame()
-        self.mainFrame = AdvancedModelCreationFrame(self, self.mainFrame.canv)
+        AdvancedModelCreationFrame(self, self.mainFrame.canv)
 
     '''
     Sets the main frame of the GUI to the Load Model frame
@@ -83,15 +84,23 @@ class GUI:
 
     def newLoadModelFrame(self):
         self.clearMainFrame()
-        self.mainFrame = LoadModelFrame(self, self.mainFrame.canv)
+        LoadModelFrame(self, self.mainFrame.canv)
 
     '''
     Sets the main frame of the GUI to the Result frame
     '''
     def newResultFrame(self, orders, typeOfData, allData=None, trainingData=None, testingData=None, columnsDict=None):
         self.clearMainFrame()
-        self.mainFrame = ResultFrame(self, self.mainFrame.canv, orders, typeOfData, allData, trainingData, testingData, columnsDict)
+        ResultFrame(self, self.mainFrame.canv, orders, typeOfData, allData, trainingData, testingData, columnsDict)
 
+    '''
+   Sets the main frame of the GUI to the Result frame
+   '''
+
+    def newAdvResultFrame(self, orders, typeOfData, allData=None, trainingData=None, testingData=None, columnsDict=None):
+        self.clearMainFrame()
+        AdvResultFrame(self, self.mainFrame.canv, orders, typeOfData, allData, trainingData, testingData,
+                                     columnsDict)
     '''
     Gets the root of the tk GUI
     '''

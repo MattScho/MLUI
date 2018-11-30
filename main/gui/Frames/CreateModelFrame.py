@@ -62,7 +62,7 @@ class ModelCreationFrame(Frame):
         self.columnsSelectorFrame.pack(padx=10, pady=10)
 
     def addAnAlgBtn(self):
-        addAlgFrameBtn = Button(self, text='Add Algorithm',font=Settings.REGULAR_FONT.value, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.addAlgFrame())
+        addAlgFrameBtn = Button(self, text='Add Algorithm', font=Settings.REGULAR_FONT.value, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.addAlgFrame())
         self.addExecuteBtn()
         addAlgFrameBtn.pack()
         self.addAlgFrame()

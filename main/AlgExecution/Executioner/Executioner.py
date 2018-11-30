@@ -14,6 +14,8 @@ from sklearn.linear_model import *
 from sklearn.cluster import *
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_validate
+
+
 import time
 
 class Executioner:
@@ -23,9 +25,9 @@ class Executioner:
     def __init__(self, order, typeOfData, columnsDict, allData=None, trainingData=None, testingData=None,):
         self.models = []
         self.order = order
-        print(order)
         featuresCols = []
         self.typeOfData = typeOfData
+        print(columnsDict)
         for key in columnsDict.keys():
             value = columnsDict.get(key)
             if value == 1:
@@ -44,19 +46,6 @@ class Executioner:
         elif typeOfData == "K-Fold 1 CSV":
             self.trainingDataX = allData[featuresCols]
             self.trainingDataY = allData[targetCol]
-        if len(self.trainingDataX.columns) == 2:
-            self.twoDData = True
-        else:
-            self.twoDData = False
-        labels = []
-        self.binaryOut = True
-        for label in self.trainingDataY:
-            if not(label in labels):
-                if len(labels) < 2:
-                    labels.append(label)
-                else:
-                    self.binaryOut = False
-                    break
 
 
     def execute(self):
@@ -78,7 +67,6 @@ class Executioner:
             perceptron_max_iter = int(e.get("Params").get("Max_Iter"))
             perceptron_fit_intercept = bool(e.get("Params").get("Fit_Intercept"))
             model = Perceptron(max_iter=perceptron_max_iter, fit_intercept=perceptron_fit_intercept)
-
         elif e.get("Algorithm") == "Decision Tree":
             dtc_max_depth = e.get("Params").get("Max Depth")
             dtc_max_depth = int(dtc_max_depth) if dtc_max_depth != "None" else None
@@ -109,6 +97,7 @@ class Executioner:
             model = GaussianNB()
         elif e.get("Algorithm") == "Quadratic Discriminant Analysis":
             model = QuadraticDiscriminantAnalysis()
+
         start = time.time()
         model.fit(self.trainingDataX, self.trainingDataY)
         end = time.time()

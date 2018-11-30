@@ -20,6 +20,7 @@ class ResultFrame(Frame):
         Frame.__init__(self, master=parent, bg=Settings.BACKGROUND_COLOR.value)
         self.GUI = GUI
         self.pack()
+        print(orders)
         for order in orders:
             progBar = ttk.Progressbar(self, mode='indeterminate')
             progBar.pack()
