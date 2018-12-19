@@ -3,8 +3,8 @@ import os
 from main.gui.Utilities.Settings import Settings
 import subprocess
 
-def launchVisualizationTool():
-    os.system("calc")
+def launchVisualizationTool(path):
+    os.system("python " + path)
 
 '''
 The welcoming frame of the app
@@ -42,7 +42,7 @@ class HomeFrame(Frame):
         loadModelButton.pack(padx=10, pady=10)
 
         # The 'Visualization Tool' button onClick launches defined visualization software
-        visualizationButton = Button(self, text="Visualization Tool", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.GOOD_BUTTON_COLOR.value, command= lambda : launchVisualizationTool())
+        visualizationButton = Button(self, text="Visualization Tool", height=8, width=32, font=Settings.REGULAR_FONT.value, bg=Settings.GOOD_BUTTON_COLOR.value, command= lambda : launchVisualizationTool(Settings.VISUALIZATION_TOOL.value))
         visualizationButton.pack(padx=10, pady=10)
 
         # The 'Help' button onClick launches the HelpFrame

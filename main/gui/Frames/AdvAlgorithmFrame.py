@@ -1,6 +1,7 @@
 from tkinter import ttk
 from tkinter import *
 from main.gui.Utilities.ToolTip import ToolTip
+from main.gui.Widgets.BooleanToggle import BooleanToggle
 from main.gui.Utilities.Settings import Settings
 from main.Algorithms.AlgorithmsEnum import Algorithm
 from main.gui.Frames.KerasFrame import KerasFrame
@@ -59,10 +60,9 @@ class AdvAlgorithmFrame(Frame):
                     textWidget.pack(padx=10, pady=10)
                     self.paramFields.append(textWidget)
                 elif param.get("Type") == "bool":
-                    selectorWidget = ttk.Combobox(master=self, state='readonly',font=Settings.REGULAR_FONT, values=[True, False])
-                    selectorWidget.current(0)
-                    selectorWidget.pack(padx=10, pady=10)
-                    self.paramFields.append(selectorWidget)
+                    toggle =BooleanToggle(self)
+                    toggle.pack(padx=10, pady=10)
+                    self.paramFields.append(toggle)
                 elif param.get("Type") == "options":
                     selectorWidget = ttk.Combobox(master=self, state='readonly',font=Settings.REGULAR_FONT, values=param.get("Default"))
                     selectorWidget.current(0)
@@ -97,6 +97,7 @@ class AdvAlgorithmFrame(Frame):
             for param in algDict.get("Advanced Parameters"):
                 paramsDict[param.get("ParamName")] = paramsList[cur]
                 cur += 1
+        print(paramsDict)
         return {"Algorithm":algName, "Type":algType, "Params":paramsDict}
 
     def initializeParamsDict(self):

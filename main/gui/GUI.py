@@ -20,7 +20,7 @@ class GUI:
 
         # Base Window (really frame)
         self.root = Tk()
-        self.root.geometry("300x900")
+        self.root.geometry("1200x900")
 
         # Set background color
         self.root.configure(background=Settings.BACKGROUND_COLOR.value)

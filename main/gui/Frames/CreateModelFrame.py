@@ -36,7 +36,7 @@ class ModelCreationFrame(Frame):
         self.typeOfLearning = selectedTypeOfLearning
 
     def showSelKindOfData(self):
-        self.selectkindOfDataBox = ttk.Combobox(self, state='readonly',font=Settings.REGULAR_FONT.value, values=['1 CSV Auto Split Training and Testing', '2 CSVs 1 Training 1 Testing', "K-Fold 1 CSV"])
+        self.selectkindOfDataBox = ttk.Combobox(self, state='readonly',font=Settings.REGULAR_FONT.value, values=['1 CSV Auto Split Training and Testing', '2 CSVs 1 Training 1 Testing', "K-Fold 1 CSV", "2 Image Dir 1 Training 1 Testing"])
         self.selectkindOfDataBox.pack(padx=10, pady=10)
         self.selectkindOfDataBox.bind("<<ComboboxSelected>>", lambda _: self.showCorrectDataSelection(self.selectkindOfDataBox.selection_get()))
 

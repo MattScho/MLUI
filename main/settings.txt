@@ -12,4 +12,7 @@ TOOLTIP_COLOR = #E96144
 REGULAR_FONT_FAMILY = Helvetica
 REGULAR_FONT_SIZE = 12
 REGULAR_FONT_WEIGHT = normal
-FONT_COLOR = #ffff00
+FONT_COLOR = #f0f000
+
+# Tools
+VISUALIZATION_TOOL = D:\Projects\SciKitUI\main\Resources\Visualization-UI-master\main.py

@@ -2,10 +2,10 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from main.gui.Frames.AdvAlgorithmFrame import AdvAlgorithmFrame
-from main.gui.Frames.KerasFrame import KerasFrame
 import pandas as pd
 from main.gui.Utilities.Settings import Settings
 from main.gui.Frames.CSVSelectorFrame import SelectorFrame
+from main.gui.Widgets.CheckBoxArray import CheckBoxFrame
 '''
 Frame for importing data and hosting sub frames for defining algorithms to be used
 '''
@@ -36,7 +36,7 @@ class AdvancedModelCreationFrame(Frame):
         self.typeOfLearning = selectedTypeOfLearning
 
     def showSelKindOfData(self):
-        self.selectkindOfDataBox = ttk.Combobox(self, state='readonly',font=Settings.REGULAR_FONT.value, values=['1 CSV Auto Split Training and Testing', '2 CSVs 1 Training 1 Testing', "K-Fold 1 CSV"])
+        self.selectkindOfDataBox = ttk.Combobox(self, state='readonly',font=Settings.REGULAR_FONT.value, values=['1 CSV Auto Split Training and Testing', '2 CSVs 1 Training 1 Testing', "K-Fold 1 CSV", "2 Image Dir 1 Training 1 Testing"])
         self.selectkindOfDataBox.pack(padx=10, pady=10)
         self.selectkindOfDataBox.bind("<<ComboboxSelected>>", lambda _: self.showCorrectDataSelection(self.selectkindOfDataBox.selection_get()))
 
@@ -55,11 +55,18 @@ class AdvancedModelCreationFrame(Frame):
             self.allData = filedialog.askopenfilename(title="Select Data")
             self.typeOfData = 'K-Fold 1 CSV'
             self.addSelectorFrame(self.allData)
+
+        elif type == '2 Image Dir 1 Training 1 Testing':
+            self.allData = filedialog.askdirectory(title="Select Data")
+            self.typeOfData = '2 Image Dir 1 Training 1 Testing'
+            self.addSelectorFrame(self.allData)
         self.addAnAlgBtn()
 
     def addSelectorFrame(self, data):
         self.columnsSelectorFrame = SelectorFrame(self, data)
         self.columnsSelectorFrame.pack(padx=10, pady=10)
+        self.dataManipulationSlection = CheckBoxFrame(self, ["Whiten", "Normalize", "Center"])
+        self.dataManipulationSlection.pack(padx=10, pady=10)
 
     def addAnAlgBtn(self):
         addAlgFrameBtn = Button(self, text='Add Algorithm',font=Settings.REGULAR_FONT.value, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.addAlgFrame())
@@ -96,6 +103,7 @@ class AdvancedModelCreationFrame(Frame):
             testData = pd.read_csv(self.trainingData)
         elif self.typeOfData == 'K-Fold 1 CSV':
             allData = pd.read_csv(self.allData)
+        print(self.dataManipulationSlection.get())
         self.GUI.newAdvResultFrame(orders, self.typeOfData, allData=allData, trainingData=trainingData, testingData=testData, columnsDict=self.columnsSelectorFrame.get_cols())
 
     def getSelectedTypeOfLearning(self):

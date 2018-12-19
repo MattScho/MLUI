@@ -17,7 +17,7 @@ class ClassificationAlgorithmResultsFrame(Frame):
         self.addPickleBtn()
 
     def addHeader(self):
-        algName = Label(master=self, bg=Settings.BACKGROUND_COLOR.value, font=Settings.REGULAR_FONT,text=self.result.get("Algorithm"))
+        algName = Label(master=self, fg=Settings.FONT_COLOR.value, bg=Settings.BACKGROUND_COLOR.value, font=Settings.REGULAR_FONT,text=self.result.get("Algorithm"))
         algName.pack()
 
     def addParameters(self):
@@ -25,25 +25,25 @@ class ClassificationAlgorithmResultsFrame(Frame):
         paramsDict = self.result.get("Params")
         for param in paramsDict.keys():
             paramsOutput += param + " = " + str(paramsDict[param]) + "\n"
-        params = Label(master=self,font=Settings.REGULAR_FONT, bg=Settings.BACKGROUND_COLOR.value,
+        params = Label(master=self,font=Settings.REGULAR_FONT.value, fg=Settings.FONT_COLOR.value, bg=Settings.BACKGROUND_COLOR.value,
                        text="Parameters:\n" + paramsOutput
         )
         params.pack()
 
     def addStatistics(self):
-        accuracyLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Accuracy: " + str(self.result.get("Statistics").get("Accuracy")))
+        accuracyLabel = Label(master=self, fg=Settings.FONT_COLOR.value, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Accuracy: " + str(self.result.get("Statistics").get("Accuracy")))
         accuracyLabel.pack()
 
-        precLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Precision: " + str(self.result.get("Statistics").get("Precision")))
+        precLabel = Label(master=self, fg=Settings.FONT_COLOR.value, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Precision: " + str(self.result.get("Statistics").get("Precision")))
         precLabel.pack()
 
-        recLabel = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Recall: " + str(self.result.get("Statistics").get("Recall")))
+        recLabel = Label(master=self, fg=Settings.FONT_COLOR.value, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="Recall: " + str(self.result.get("Statistics").get("Recall")))
         recLabel.pack()
 
-        f1Label = Label(master=self, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="F1: " + str(self.result.get("Statistics").get("F1")))
+        f1Label = Label(master=self, fg=Settings.FONT_COLOR.value, bg=Settings.BACKGROUND_COLOR.value,font=Settings.REGULAR_FONT, text="F1: " + str(self.result.get("Statistics").get("F1")))
         f1Label.pack()
 
-        trainTimeLabel = Label(master=self, font=Settings.REGULAR_FONT.value, bg=Settings.BACKGROUND_COLOR.value, text="Training Time: " + str(self.result.get("Statistics").get("Fit Time")) + " seconds")
+        trainTimeLabel = Label(master=self, fg=Settings.FONT_COLOR.value, font=Settings.REGULAR_FONT.value, bg=Settings.BACKGROUND_COLOR.value, text="Training Time: " + str(self.result.get("Statistics").get("Fit Time")) + " seconds")
         trainTimeLabel.pack()
 
     def addPickleBtn(self):

@@ -133,7 +133,10 @@ class Executioner:
             end = time.time()
         else:
             start = time.time()
-            model.fit(self.trainingDataX.values, self.trainingDataY.values)
+            try:
+                model.fit(self.trainingDataX.values, self.trainingDataY.values)
+            except MemoryError:
+                print("Memory Error")
             end = time.time()
         entry = {
             "Type": "Classification",

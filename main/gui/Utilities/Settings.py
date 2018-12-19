@@ -33,3 +33,4 @@ class Settings(Enum):
     REGULAR_BUTTON2_COLOR = settings["REGULAR_BUTTON2_COLOR"]
     REGULAR_FONT = (settings["REGULAR_FONT_FAMILY"],settings["REGULAR_FONT_SIZE"],settings["REGULAR_FONT_WEIGHT"])
     FONT_COLOR = settings["FONT_COLOR"]
+    VISUALIZATION_TOOL = settings["VISUALIZATION_TOOL"]

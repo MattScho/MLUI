@@ -335,27 +335,6 @@ class Algorithm(Enum):
 
         ]
     }
-    MULTI_LAYER_PERCEPTRON = {
-        "AlgName": "Multi-layer Perceptron",
-        "Type": "Classification",
-        "Simple Description": "",
-        "Advanced Description": "",
-        "Keywords": [
-
-        ],
-        "Simple Parameters": [
-            {
-                "ParamName": "alpha",
-                "Type": "float",
-                "Default": ".0001",
-                "Simple Description": "",
-                "Advanced Description": ""
-            },
-        ],
-        "Advanced Parameters": [
-
-        ]
-    }
     ADABOOST_CLASSIFIER = {
         "AlgName": "AdaBoost Classifier",
         "Type": "Classification",
@@ -365,9 +344,23 @@ class Algorithm(Enum):
 
         ],
         "Simple Parameters": [
-
+            {
+                "ParamName": "n_estimators",
+                "Type": "int",
+                "Default": "50",
+                "Simple Description": "",
+                "Advanced Description": "The maximum number of estimators at which boosting is terminated. "
+                                        "\nIn case of perfect fit, the learning procedure is stopped early."
+            },
         ],
         "Advanced Parameters": [
+            {
+                "ParamName": "algorithm",
+                "Type": "options",
+                "Default": ["SAMME.R", "SAMME"],
+                "Simple Description": "",
+                "Advanced Description": ""
+            }
 
         ]
     }
@@ -383,7 +376,13 @@ class Algorithm(Enum):
 
         ],
         "Advanced Parameters": [
-
+            {
+                "ParamName": "var_smoothing",
+                "Type": "float",
+                "Default": 1e-9,
+                "Advanced Description": "Portion of the largest variance of all features "
+                                        "\nthat is added to variances for calculation stability."
+            },
         ]
     }
     QUADRATIC_DISCRIMINANT_AANALYSIS = {
