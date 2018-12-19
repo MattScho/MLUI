@@ -1,7 +1,7 @@
 # MLUI
 A User Interface for Machine Learning, designed for all levels of expertise
 
-# Currently under development (v0.4)
+# Currently under development (v0.9)
 Please keep in mind this software is in very early development and is not yet particularly reliable.
 
 # Features
@@ -17,24 +17,7 @@ Please keep in mind this software is in very early development and is not yet pa
   </li>
 </ul>
 
-# Goals for v0.5:
-- [] Clean up and document code 
-- [x] Support use of validation sets and parameter tuning 
-- [x] Keras support
-- [x] Scrollbars
-
-# Previous Versions Additions:
-v0.3:
-<ul>
-  <li>Font size customization<\li>
-  <li>Multi-threaded training<\li>
-  <li>CSV column selection tool<\li>
-  <li>Can remove algorithm orders<\li>
-  <li>Load model for quick tests added<\li>
-<\ul>
-v0.2:
-<ul>
-<li>Transition from grid to pack layout management</li>
-<li>Create a waiting frame while training is occuring</li>
-<li>Seperately import training and testing data</li>
-</ul>
+# Goals for v1.0:
+[] Bug Fixes
+[] Image Support
+[] Multiple Export Options
