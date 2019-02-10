@@ -1,6 +1,5 @@
 from tkinter import *
 import tkinter as tk
-from tkinter.ttk import *
 
 from main.gui.Utilities.Settings import Settings
 class ScrolledFrame(Frame):
