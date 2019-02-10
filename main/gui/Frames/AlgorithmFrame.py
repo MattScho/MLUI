@@ -1,6 +1,6 @@
 from tkinter import ttk
 from tkinter import *
-from ..Utilities.ToolTip import ToolTip
+from main.gui.Utilities.ToolTip import ToolTip
 from main.gui.Utilities.Settings import Settings
 from main.Algorithms.AlgorithmsEnum import Algorithm
 

@@ -50,6 +50,14 @@ class ClassificationAlgorithmResultsFrame(Frame):
         pickleModelBtn = Button(self, text='Pickle Model', width= 15,font=Settings.REGULAR_FONT, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
         pickleModelBtn.pack()
 
+        outputResultCSVBtn = Button(self, text="Results as CSV", width= 15,font=Settings.REGULAR_FONT, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
+        outputResultCSVBtn.pack()
+
+        if self.result.get("Algorithm") == "Perceptron":
+            outputWeightsToCSVBtn = Button(self, text="Weights as CSV", width= 15,font=Settings.REGULAR_FONT, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.pickleModel())
+            outputWeightsToCSVBtn.pack()
+
+
     def pickleModel(self):
         fileToPickleTo = filedialog.asksaveasfile(mode='wb', defaultextension=".MLModel")
         if fileToPickleTo != None:
