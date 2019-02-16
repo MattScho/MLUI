@@ -65,8 +65,6 @@ class AdvancedModelCreationFrame(Frame):
     def addSelectorFrame(self, data):
         self.columnsSelectorFrame = SelectorFrame(self, data)
         self.columnsSelectorFrame.pack(padx=10, pady=10)
-        self.dataManipulationSlection = CheckBoxFrame(self, ["Whiten", "Normalize", "Center"])
-        self.dataManipulationSlection.pack(padx=10, pady=10)
 
     def addAnAlgBtn(self):
         addAlgFrameBtn = Button(self, text='Add Algorithm',font=Settings.REGULAR_FONT.value, width= 15, bg=Settings.GOOD_BUTTON_COLOR.value, command=lambda : self.addAlgFrame())
@@ -103,7 +101,6 @@ class AdvancedModelCreationFrame(Frame):
             testData = pd.read_csv(self.trainingData)
         elif self.typeOfData == 'K-Fold 1 CSV':
             allData = pd.read_csv(self.allData)
-        print(self.dataManipulationSlection.get())
         self.GUI.newAdvResultFrame(orders, self.typeOfData, allData=allData, trainingData=trainingData, testingData=testData, columnsDict=self.columnsSelectorFrame.get_cols())
 
     def getSelectedTypeOfLearning(self):
